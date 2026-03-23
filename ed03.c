@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-#define SENTA_E_CHORA() printf("%s%d", "Erro na linha: ", __LINE__);
+#define erro_print() printf("%s%d", "Erro na linha: ", __LINE__);
 #define STR_LENGTH  40
 
 
@@ -13,13 +13,15 @@ void methodo_0311()
 
     if (string == NULL)
     {
-        SENTA_E_CHORA()
+        erro_print()
         return;
     }
 
     printf("Digitar uma palavra (Max 40 caracteries): ");
     scanf("%s", &string[0]);
-    // getchar();
+    getchar();
+
+
     printf("\n%s%s\n", "Palavra digitada: ", string);
 
     printf("Mostrando as letras maiusculas menores que K\n");
@@ -43,20 +45,20 @@ void methodo_0311()
 
 void methodo_0312()
 {
-    printf("Metodo 031g2\n");
+    printf("Metodo 0312\n");
 
     int quantidade = 0;
     char *string = (char*)malloc(STR_LENGTH * sizeof(char));
 
     if (string == NULL)
     {
-        SENTA_E_CHORA()
+        erro_print()
         return;
     }
 
     printf("Digitar uma palavra (Max 40 caracteries): ");
     scanf("%s", &string[0]);
-    // getchar();
+    getchar();
     printf("\n%s%s\n", "Palavra digitada: ", string);
 
     printf("Mostrando as letras maiusculas menores que K\n");
@@ -88,13 +90,13 @@ void methodo_0313()
 
     if (string == NULL)
     {
-        SENTA_E_CHORA()
+        erro_print()
         return;
     }
 
     printf("Digitar uma palavra (Max 40 caracteries): ");
     scanf("%s", &string[0]);
-    // getchar();
+    getchar();
     printf("\n%s%s\n", "Palavra digitada: ", string);
 
     printf("Mostrando as letras maiusculas menores que K\n");
@@ -131,13 +133,13 @@ void methodo_0314()
 
     if (string == NULL)
     {
-        SENTA_E_CHORA()
+        erro_print()
         return;
     }
 
     printf("Digitar uma palavra (Max 40 caracteries): ");
     scanf("%s", &string[0]);
-    // getchar();
+    getchar();
     printf("\n%s%s\n", "Palavra digitada: ", string);
 
     printf("Mostrando as letras\n");
@@ -176,13 +178,13 @@ void methodo_0315()
 
     if (string == NULL)
     {
-        SENTA_E_CHORA()
+        erro_print()
         return;
     }
 
     printf("Digitar uma palavra (Max 40 caracteries): ");
     scanf("%s", &string[0]);
-    // getchar();
+    getchar();
     printf("\n%s%s\n", "Palavra digitada: ", string);
 
     printf("Mostrando os digitos pares\n");
@@ -222,13 +224,13 @@ void methodo_0316()
 
     if (string == NULL)
     {
-        SENTA_E_CHORA()
+        erro_print()
         return;
     }
 
     printf("Digitar uma palavra (Max 40 caracteries): ");
     scanf("%s", &string[0]);
-    // getchar();
+    getchar();
     printf("\n%s%s\n", "Palavra digitada: ", string);
 
     printf("Mostrando tudo que nao for digito par e tambem nao letra\n");
@@ -281,9 +283,11 @@ void methodo_0317()
     
     printf("Digite o limite inferior: ");
     scanf("%d", &limiteInferior);
+    getchar();
 
     printf("Digite o limite Superior: ");
     scanf("%d", &limiteSuperior);
+    getchar();
 
     
     if (limiteInferior > limiteSuperior)
@@ -294,6 +298,7 @@ void methodo_0317()
 
     printf("Digite a quantidade de valores a serem testados: ");
     scanf("%d", &quantidade);
+    getchar();
     
     if (quantidade < 0 || quantidade > 10)
     {
@@ -305,7 +310,7 @@ void methodo_0317()
 
     if (conjuntoTest == NULL)
     {
-        SENTA_E_CHORA()
+        erro_print()
         return;
     }
 
@@ -316,6 +321,7 @@ void methodo_0317()
     {
         printf("Digite um valor: ");
         scanf("%d", &conjuntoTest[i]);
+        getchar();
     }
 
     for (int i = 0; i < quantidade; i++)
@@ -347,9 +353,11 @@ void methodo_0318()
     
     printf("Digite o limite inferior: ");
     scanf("%d", &limiteInferior);
+    getchar();
 
     printf("Digite o limite Superior: ");
     scanf("%d", &limiteSuperior);
+    getchar();
 
     
     if (limiteInferior > limiteSuperior)
@@ -360,6 +368,7 @@ void methodo_0318()
 
     printf("Digite a quantidade de valores a serem testados: ");
     scanf("%d", &quantidade);
+    getchar();
     
         
     if (quantidade < 0 || quantidade > 10)
@@ -372,7 +381,7 @@ void methodo_0318()
 
     if (conjuntoTest == NULL)
     {
-        SENTA_E_CHORA()
+        erro_print()
         return;
     }
 
@@ -383,6 +392,7 @@ void methodo_0318()
     {
         printf("Digite um valor: ");
         scanf("%d", &conjuntoTest[i]);
+        getchar();
     }
 
     for (int i = 0; i < quantidade; i++)
@@ -413,9 +423,11 @@ void methodo_0319()
     
     printf("Digite o limite inferior: ");
     scanf("%lf", &limiteInferior);
+    getchar();
 
     printf("Digite o limite Superior: ");
     scanf("%lf", &limiteSuperior);
+    getchar();
 
     if ((limiteInferior > limiteSuperior))
     {
@@ -425,6 +437,7 @@ void methodo_0319()
 
     printf("Digite a quantidade de valores a serem testados: ");
     scanf("%d", &quantidade);
+    getchar();
     
     
     if (quantidade < 0 || quantidade > 10)
@@ -437,7 +450,7 @@ void methodo_0319()
 
     if (conjuntoTest == NULL)
     {
-        SENTA_E_CHORA()
+        erro_print()
         return;
     }
 
@@ -477,9 +490,11 @@ void methodo_0320()
     
     printf("Digite o limite inferior: ");
     scanf("%lf", &limiteInferior);
+    getchar();
 
     printf("Digite o limite Superior: ");
     scanf("%lf", &limiteSuperior);
+    getchar();
 
     if ((limiteInferior > limiteSuperior))
     {
@@ -489,6 +504,7 @@ void methodo_0320()
 
     printf("Digite a quantidade de valores a serem testados: ");
     scanf("%d", &quantidade);
+    getchar();
     
     
     if (quantidade < 0 || quantidade > 10)
@@ -501,7 +517,7 @@ void methodo_0320()
 
     if (conjuntoTest == NULL)
     {
-        SENTA_E_CHORA()
+        erro_print()
         return;
     }
 
@@ -512,6 +528,7 @@ void methodo_0320()
     {
         printf("Digite um valor: ");
         scanf("%lf", &conjuntoTest[i]);
+        getchar();
     }
 
     double fracionario = 0.0;
@@ -532,8 +549,57 @@ void methodo_0320()
 
 int main (void)
 {
+   int opcao = 0;
 
-    methodo_0320();
+    printf("Metodo Main\n");
+    
+    do
+    {
+        printf("Entrar com opcao para selecionar metodo (1-10)\n");
 
+        scanf("%d", &opcao);
+
+        switch (opcao)
+        {
+        case 1:
+            methodo_0311();
+            break;
+        case 2:
+            methodo_0312();
+            break;
+        case 3:
+            methodo_0313();
+            break;
+        case 4:
+            methodo_0314();
+            break;
+        case 5:
+            methodo_0315();
+            break;
+        case 6:
+            methodo_0316();
+            break;
+        case 7:
+            methodo_0317();
+            break;
+        case 8:
+            methodo_0318();
+            break;
+        case 9:
+            methodo_0319();
+            break;
+        case 10:
+            methodo_0320();
+            break;
+        default:
+            printf("%s\n", "Metodo invalido, Selecionar metodos de 1 ate 10");
+            printf("%s\n", "Ou pressione 0 para sair");
+            break;
+        }
+    } while (opcao != 0);
+    
+
+    printf("Apertar ENTER para sair do programa main.");
+    getchar();
     return 0;
 }
