@@ -1,9 +1,10 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdarg.h>
 
 #define STR_SIZE 20
 
-
+typedef enum Bool { FALSE = 0, TRUE} MyBool;
 
 void metodo_0411()
 {
@@ -72,25 +73,90 @@ void metodo_0411()
   free(dados);
 }
 
-void contarLetras(const char* string)
+/*
+  * PARAMS - > %r   = range of letters (eg; x > p && x < z)
+  *            %a   = create new array to hold a new string
+  *            %s   = (req a) size of the new array
+  *            %q   = (req r) show total quantity of letters in range
+void contarLetras(const char* params, ...)
 {
+  const char* stackPointer = params;
 
-  int contador = 0;
+  
 
-  for(int x = 0; (string[x] != '\0') && (x < STR_SIZE); x++)
+  // int contador = 0;
+  //
+  // for(int x = 0; (string[x] != '\0') && (x < STR_SIZE); x++)
+  // {
+  //   if ( (string[x] > 'k') && (string[x] < 'p'))
+  //   {
+  //     contador++;
+  //     printf("%c ,", string[x]);
+  //   }
+  // }
+  printf("\n");
+  printf("A palavra inserida tem %d letras entre k e p\n", contador);
+}
+
+MyBool seraMinuscula(const char letra)
+{
+  MyBool resposta = FALSE;
+
+  if ( (letra > 'k') && (letra < 'p'))
   {
-    if ( (string[x] > 'k') && (string[x] < 'p'))
-    {
-      contador++;
-    }
+    resposta = TRUE;
   }
 
-  printf("A palavra inserida tem %d letras entre k e p\n", contador);
+  return resposta;
 }
 
 void metodo_0412()
 {
   printf("Metodo 0412\n");
+
+
+  char * string = (char *)calloc(STR_SIZE, sizeof(char));
+  int contador = 0;
+
+
+  printf("Entre com uma cadeia de characters: \n");
+  scanf("%s", string);
+  getchar();
+
+  for(int x = 0; (string[x] != '\0') && (x < STR_SIZE); x++)
+  {
+    if ( seraMinuscula(string[x]))
+    {
+      contador++;
+      printf("%c ,", string[x]);
+    }
+  }
+  printf("\n");
+  printf("A palavra inserida tem %d letras entre k e p\n", contador);
+  free(string);
+  
+}
+
+void metodo_0413()
+{
+  printf("Metodo 0413\n");
+
+
+  char * string = (char *)calloc(STR_SIZE, sizeof(char));
+
+  printf("Entre com uma cadeia de characters: \n");
+  scanf("%s", string);
+  getchar();
+
+  contarLetras(string);
+
+  free(string);
+  
+}
+
+void metodo_0414()
+{
+  printf("Metodo 0414\n");
 
 
   char * string = (char *)calloc(STR_SIZE, sizeof(char));
