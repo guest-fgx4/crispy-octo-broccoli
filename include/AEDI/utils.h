@@ -1,5 +1,5 @@
-#ifndef AEDI_Utils
-#define AEDI_Utils
+#ifndef AEDI_UTILS_
+#define AEDI_UTILS_
 
 int gerarIntervaloRand(int limiteInf, int limiteSup);
 

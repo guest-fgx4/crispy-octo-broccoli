@@ -1,5 +1,6 @@
-#ifndef AEDI_File_
-#define AEDI_File_
+#ifndef AEDI_FILE_
+#define AEDI_FILE_
+
 
 
 #endif
