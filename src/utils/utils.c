@@ -2,6 +2,17 @@
 #include<stdlib.h>
 #include<stdio.h>
 
+int lerIntTeclado()
+{
+    int valor = 0;
+
+    printf("Inserir Valor inteiro: ");
+    scanf("%d", &valor); getchar();
+
+    return valor = 0;
+}
+
+
 int randIntIntervalo(int limiteInf, int limiteSup)
 {
     int resposta = 0;
@@ -23,3 +34,5 @@ int randIntIntervalo(int limiteInf, int limiteSup)
 
     return resposta;
 }
+
+
