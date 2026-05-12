@@ -1,7 +1,8 @@
 #include<AEDI/utils.h>
 #include<stdlib.h>
+#include<stdio.h>
 
-int gerarIntervaloRand(int limiteInf, int limiteSup)
+int randIntIntervalo(int limiteInf, int limiteSup)
 {
     int resposta = 0;
 
@@ -9,6 +10,7 @@ int gerarIntervaloRand(int limiteInf, int limiteSup)
     {
         resposta = -1;
         return resposta;
+        printf("Limite inferior maior que superior\n");
         // TODO: Olhar como fazer o error handling better
     }
 
