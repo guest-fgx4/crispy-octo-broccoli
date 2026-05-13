@@ -1,12 +1,6 @@
 #include<AEDI/file.h>
+#include<AEDI/arranjo.h>
 #include<stdlib.h>
-
-typedef struct Arquivo{
-
-    const* char nome;
-    FILE* Arquivo;
-} Arquivo;
-
 
 Arquivo* abrirArquivo(const* char nomeArquivo)
 {
@@ -18,9 +12,10 @@ Arquivo* abrirArquivo(const* char nomeArquivo)
         return novoArquivo;
     }
 
-    novoArquivo = fopen(nomeArquivo, "wt");
+    novoArquivo = (Arquivo*) calloc(1,sizeof(Arquivo));
+    novoArquivo->Arquivo = fopen(nomeArquivo, "wt");
 
-    if (novoArquivo == NULL)
+    if (novoArquivo->arquivo == NULL)
     {
         printf("Erro ao tentar abrir arquivo");
         return novoArquivo;
@@ -29,4 +24,39 @@ Arquivo* abrirArquivo(const* char nomeArquivo)
     novoArquivo->nome = nomeArquivo;
 
     return novoArquivo;
+}
+
+
+void fecharDesalocar(Arquivo* arquivo)
+{
+    fclose(arquivo->farquivo);
+    free(arquivo);
+}
+
+
+void gravarArranjoArquivo(Arranjo* arranjo, const* char nomeArquivo)
+{
+    if (arranjo == NULL || arranjo->array == NULL)
+    {
+        printf("[file]: arranjo nullo\n");
+        return;
+    }
+    
+    Arquivo* arquivo = abrirArquivo(nomeArquivo);
+
+    fprintf(arquivo, "%d\n", arranjo->tamanho);
+
+
+    swtich (arranjo->tipo)
+    {
+        case INTEIRO:
+            int* array = (int*) arranjo->array;
+         
+            for(int indice = 0; indice < arranjo->tamanho; indice++)
+            {
+                fprintf(arquivo, "%d\n", array[indice]);
+            }
+            break;
+    }
+    
 }

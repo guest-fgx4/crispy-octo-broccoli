@@ -2,11 +2,11 @@
 #include<stdlib.h>
 #include<stdio.h>
 
-int lerIntTeclado()
+int lerIntTeclado(const char* string)
 {
     int valor = 0;
 
-    printf("Inserir Valor inteiro: ");
+    printf(string);
     scanf("%d", &valor); getchar();
 
     return valor = 0;

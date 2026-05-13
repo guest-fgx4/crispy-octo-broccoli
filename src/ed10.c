@@ -1,5 +1,26 @@
+#include<stdio.h>
+#include<AEDI/arranjo.h>
+#include<AEDI/file.h>
+#include<AEDI/utils.h>
+
 void metodo_011()
 {
+    int limiteInf = 0;
+    int limiteSup = 0;
+    int quantidade = 0;
+
+    limiteInf = lerIntTeclado("Inserir o limite Inferior: ");
+    limiteSup = lerIntTeclado("Inserir o limite Supeior: ");
+    quantidade = lerIntTeclado("Inserir a quantidade: ");
+
+    Arranjo* arranjo = criarArranjo(quantidade, INTEIRO);
+    preencherArranjoAleatorio(arranjo, limiteInf, limiteSup);
+
+    Arquivo* arquivo = abrirArquivo("dados.txt");
+    gravarArranjoArquivo(arranjo, "dados.txt");
+
+    fecharDesalocar(arquivo);
+    free(arranjo);
 }
 
 void metodo_012()
