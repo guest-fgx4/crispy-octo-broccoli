@@ -30,7 +30,7 @@ enum tipoArranjo {
 
 typedef struct Arranjo{
     int tamanho;
-    tipoArranjo tipo;
+    enum tipoArranjo tipo;
     void *array;
 } Arranjo;
 

@@ -2,20 +2,25 @@
 #include<AEDI/utils.h>
 #include<stdio.h>
 
-Arranjo* criarArranjo(int tamanho, tipoArranjo tipo)
+Arranjo* criarArranjo(int tamanho, enum tipoArranjo tipo)
 {
     Arranjo* novoArranjo = NULL;
 
     if (tamanho > 0)
     {
-        novoArranjo = (Arranjo*) calloc(tamanho,sizeof(Arranjo));
-        novoArranjo->tamanho = tamanho;
+        novoArranjo = (Arranjo*) malloc(tamanho * sizeof(Arranjo));
         
-        swtich(tipo)
+        
+        switch(tipo)
         {
             case INTEIRO:
                 novoArranjo->tipo = tipo;
-                novoArranjo->array = (int*)calloc(tamanho, sizeof(int));
+                novoArranjo->array = malloc(tamanho * sizeof(int));
+                if (novoArranjo->array != NULL)
+                {
+                    // adicionar tamanho apenas depois de alocar dados
+                    novoArranjo->tamanho = tamanho;
+                }
                 break;
         }
 
@@ -39,13 +44,13 @@ void preencherArranjoAleatorio(Arranjo* arranjo, int limiteInf, int limiteSup)
     }
     else
     {
-       swtich (arranjo->tipo)
+       switch (arranjo->tipo)
        {
            case INTEIRO:
                int* array = (int*) arranjo->array;
-               for(int indice = 0; indice < arranjo->tamanho; indice+)
+               for(int indice = 0; indice < arranjo->tamanho; indice++)
                {
-                   array[indice] = randIntIntervalo(limiteInf,limiteSup)
+                   array[indice] = randIntIntervalo(limiteInf,limiteSup);
                }
                break;
        }

@@ -2,8 +2,7 @@
 #define AEDI_FILE_
 
 typedef struct Arquivo{
-
-    const* char nome;
+    char* nome;
     FILE* arquivo;
 } Arquivo;
 

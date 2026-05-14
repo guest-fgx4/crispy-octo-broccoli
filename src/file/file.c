@@ -2,7 +2,7 @@
 #include<AEDI/arranjo.h>
 #include<stdlib.h>
 
-Arquivo* abrirArquivo(const* char nomeArquivo)
+Arquivo* abrirArquivo(const char* nomeArquivo)
 {
     Arquivo* novoArquivo = NULL;
 
@@ -13,7 +13,7 @@ Arquivo* abrirArquivo(const* char nomeArquivo)
     }
 
     novoArquivo = (Arquivo*) calloc(1,sizeof(Arquivo));
-    novoArquivo->Arquivo = fopen(nomeArquivo, "wt");
+    novoArquivo->arquivo = fopen(nomeArquivo, "wt");
 
     if (novoArquivo->arquivo == NULL)
     {
@@ -29,12 +29,12 @@ Arquivo* abrirArquivo(const* char nomeArquivo)
 
 void fecharDesalocar(Arquivo* arquivo)
 {
-    fclose(arquivo->farquivo);
+    fclose(arquivo->arquivo);
     free(arquivo);
 }
 
 
-void gravarArranjoArquivo(Arranjo* arranjo, const* char nomeArquivo)
+void gravarArranjoArquivo(Arranjo* arranjo, const char* nomeArquivo)
 {
     if (arranjo == NULL || arranjo->array == NULL)
     {
@@ -47,11 +47,10 @@ void gravarArranjoArquivo(Arranjo* arranjo, const* char nomeArquivo)
     fprintf(arquivo, "%d\n", arranjo->tamanho);
 
 
-    swtich (arranjo->tipo)
+    switch (arranjo->tipo)
     {
         case INTEIRO:
             int* array = (int*) arranjo->array;
-         
             for(int indice = 0; indice < arranjo->tamanho; indice++)
             {
                 fprintf(arquivo, "%d\n", array[indice]);
