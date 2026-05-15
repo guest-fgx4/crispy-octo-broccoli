@@ -1,6 +1,7 @@
 #include<AEDI/arranjo.h>
 #include<AEDI/utils.h>
 #include<stdio.h>
+#include<stdlib.h>
 
 Arranjo* criarArranjo(int tamanho, enum tipoArranjo tipo)
 {

@@ -44,7 +44,7 @@ void gravarArranjoArquivo(Arranjo* arranjo, const char* nomeArquivo)
     
     Arquivo* arquivo = abrirArquivo(nomeArquivo);
 
-    fprintf(arquivo, "%d\n", arranjo->tamanho);
+    fprintf(arquivo->arquivo, "%d\n", arranjo->tamanho);
 
 
     switch (arranjo->tipo)
@@ -53,7 +53,7 @@ void gravarArranjoArquivo(Arranjo* arranjo, const char* nomeArquivo)
             int* array = (int*) arranjo->array;
             for(int indice = 0; indice < arranjo->tamanho; indice++)
             {
-                fprintf(arquivo, "%d\n", array[indice]);
+                fprintf(arquivo->arquivo, "%d\n", array[indice]);
             }
             break;
     }

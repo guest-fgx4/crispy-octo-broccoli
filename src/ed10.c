@@ -20,7 +20,7 @@ void metodo_011()
     gravarArranjoArquivo(arranjo, "dados.txt");
 
     fecharDesalocar(arquivo);
-    free(arranjo);
+    // free(arranjo);
 }
 
 void metodo_012()

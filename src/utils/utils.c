@@ -9,7 +9,7 @@ int lerIntTeclado(const char* string)
     printf(string);
     scanf("%d", &valor); getchar();
 
-    return valor = 0;
+    return valor;
 }
 
 
@@ -25,7 +25,7 @@ int randIntIntervalo(int limiteInf, int limiteSup)
         // TODO: Olhar como fazer o error handling better
     }
 
-    resposta = (Rand() % limiteSup) + 1;
+    resposta = (rand() % limiteSup) + 1;
 
     if (resposta < limiteInf)
     {

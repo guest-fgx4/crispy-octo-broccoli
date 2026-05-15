@@ -22,6 +22,7 @@
 //    int *array;
 //} ArranjoInt;
 
+
 enum tipoArranjo {
     INTEIRO             = 0,
     DUPLA_PRECISAO,
@@ -33,5 +34,9 @@ typedef struct Arranjo{
     enum tipoArranjo tipo;
     void *array;
 } Arranjo;
+
+Arranjo* criarArranjo(int tamanho, enum tipoArranjo tipo);
+void preencherArranjoAleatorio(Arranjo* arranjo, int limiteInf, int limiteSup);
+
 
 #endif
