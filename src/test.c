@@ -1,9 +1,12 @@
-#include<AEDI/matriz.h>
 #include<stdio.h>
 
 int main()
 {
-    printf("Valor final da soma: %d", soma(1,1));
+    printf("Size of int: %d", sizeof(int));
+    printf("Size of char: %d", sizeof(char));
+    printf("Size of float: %d", sizeof(float));
+    printf("Size of double: %d", sizeof(double));
+    printf("Size of long: %d", sizeof(long));
     return 0;
 }
 

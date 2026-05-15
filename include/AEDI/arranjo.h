@@ -22,7 +22,6 @@
 //    int *array;
 //} ArranjoInt;
 
-
 enum tipoArranjo {
     INTEIRO             = 0,
     DUPLA_PRECISAO,
