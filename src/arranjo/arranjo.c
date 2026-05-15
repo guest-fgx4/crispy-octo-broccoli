@@ -55,3 +55,13 @@ void preencherArranjoAleatorio(Arranjo* arranjo, int limiteInf, int limiteSup)
        }
     }
 }
+
+
+// TODO: Verificar se tem como validar differentes tipos de dados ao
+// inves de colocar apenas int
+int buscarIntArranjo(Arranjo* arranjo, int valor)
+{
+    int resposta = 0;
+
+    return resposta;
+}

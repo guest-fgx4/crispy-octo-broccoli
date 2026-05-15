@@ -16,7 +16,7 @@ void metodo_011()
     Arranjo* arranjo = criarArranjo(quantidade, INTEIRO);
     preencherArranjoAleatorio(arranjo, limiteInf, limiteSup);
 
-    Arquivo* arquivo = abrirArquivo("dados.txt");
+    Arquivo* arquivo = abrirArquivo("dados.txt", ESCREVER);
     gravarArranjoArquivo(arranjo, "dados.txt");
 
     fecharDesalocar(arquivo);
