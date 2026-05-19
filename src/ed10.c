@@ -91,26 +91,44 @@ void metodo_014()
 void metodo_015()
 {
     printf("Metodo 05\n");
+
+    Arranjo* arranjo = buscarArranjoArquivo("dados.txt");
+
+    if (estaDecrescente(arranjo))
+    {
+        printf("Arranjo esta ordenado de forma decrescente!\n");
+    }
+    else
+    {
+        printf("Arranjo nao esta ordenado de forma decrescente!\n");
+    }
+
+    free(arranjo);
 }
 
 void metodo_016()
 {
+    printf("Metodo 06\n");
 }
 
 void metodo_017()
 {
+    printf("Metodo 07\n");
 }
 
 void metodo_018()
 {
+    printf("Metodo 08\n");
 }
 
 void metodo_019()
 {
+    printf("Metodo 09\n");
 }
 
 void metodo_020()
 {
+    printf("Metodo 10\n");
 }
 
 

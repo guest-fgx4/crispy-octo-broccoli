@@ -120,3 +120,19 @@ int somarArranjo(Arranjo* arranjo1, int constante, Arranjo* arranjo2)
 
     return soma;
 }
+
+int estaDecrescente(Arranjo* arranjo)
+{
+    int resposta = 1;
+
+    if(validar_arranjo(arranjo)) return resposta;
+
+    int* array = (int*) arranjo->array;
+
+    for (int indice = 0; indice < (arranjo->tamanho - 1); indice++)
+    {
+        if (array[indice] < array[indice + 1]) resposta = 0;
+    }
+
+    return resposta;
+}
