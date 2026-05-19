@@ -1,42 +1,52 @@
 void metodo_011()
 {
+    printf("Metodo 01\n");
 }
 
 void metodo_012()
 {
+    printf("Metodo 02\n");
 }
 
 
 void metodo_013()
 {
+    printf("Metodo 03\n");
 }
 
 void metodo_014()
 {
+    printf("Metodo 04\n");
 }
 
 void metodo_015()
 {
+    printf("Metodo 05\n");
 }
 
 void metodo_016()
 {
+    printf("Metodo 06\n");
 }
 
 void metodo_017()
 {
+    printf("Metodo 07\n");
 }
 
 void metodo_018()
 {
+    printf("Metodo 08\n");
 }
 
 void metodo_019()
 {
+    printf("Metodo 09\n");
 }
 
 void metodo_020()
 {
+    printf("Metodo 10\n");
 }
 
 

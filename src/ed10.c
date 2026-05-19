@@ -1,10 +1,14 @@
 #include<stdio.h>
+#include<stdlib.h>
+
 #include<AEDI/arranjo.h>
 #include<AEDI/file.h>
 #include<AEDI/utils.h>
 
 void metodo_011()
 {
+    printf("Metodo 01\n");
+
     int limiteInf = 0;
     int limiteSup = 0;
     int quantidade = 0;
@@ -13,6 +17,8 @@ void metodo_011()
     limiteSup = lerIntTeclado("Inserir o limite Supeior: ");
     quantidade = lerIntTeclado("Inserir a quantidade: ");
 
+
+
     Arranjo* arranjo = criarArranjo(quantidade, INTEIRO);
     preencherArranjoAleatorio(arranjo, limiteInf, limiteSup);
 
@@ -20,24 +26,71 @@ void metodo_011()
     gravarArranjoArquivo(arranjo, "dados.txt");
 
     fecharDesalocar(arquivo);
-    // free(arranjo);
+    free(arranjo);
 }
 
 void metodo_012()
 {
+    printf("Metodo 02\n");
+
+    int valor = 0;
+
+    Arranjo* arranjo = buscarArranjoArquivo("dados.txt");
+
+    valor = lerIntTeclado("Indique o valor a ser procurado: ");
+
+    if (buscarIntArranjo(arranjo, valor))
+    {
+        printf("Valor achado!\n");
+    }
+    else
+    {
+        printf("Valor nao achado\n");
+    }
+
+    free(arranjo);
 }
 
 
 void metodo_013()
 {
+    printf("Metodo 03\n");
+
+    // TODO: parametrizar o nome do arquivo a ser procurado
+    Arranjo* arranjo1 = buscarArranjoArquivo("dados.txt");
+    Arranjo* arranjo2 = buscarArranjoArquivo("dados.txt");
+
+    if (comprarArranjos(arranjo1, arranjo2))
+    {
+        printf("Arranjos iguals!\n");
+    }
+    else
+    {
+        printf("Arranjos nao iguals!\n");
+    }
+
+    free(arranjo1);
+    free(arranjo2);
 }
 
 void metodo_014()
 {
+    printf("Metodo 04\n");
+
+    Arranjo* arranjo1 = buscarArranjoArquivo("dados.txt");
+    Arranjo* arranjo2 = buscarArranjoArquivo("dados.txt");
+
+    int soma = somarArranjo(arranjo1, 2, arranjo2);
+
+    printf("Valor da soma dos arranjos 1 e 2: %d", soma);
+
+    free(arranjo1);
+    free(arranjo2);
 }
 
 void metodo_015()
 {
+    printf("Metodo 05\n");
 }
 
 void metodo_016()

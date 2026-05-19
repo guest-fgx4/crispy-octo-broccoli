@@ -18,5 +18,7 @@ enum operacoes_arquivo
 Arquivo* abrirArquivo(const char* nomeArquivo, enum operacoes_arquivo tipoOperacao);
 void fecharDesalocar(Arquivo* arquivo);
 void gravarArranjoArquivo(Arranjo* arranjo, const char* nomeArquivo);
+Arranjo* buscarArranjoArquivo(const char* nomeArquivo);
+
 
 #endif

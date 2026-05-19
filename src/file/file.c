@@ -81,17 +81,30 @@ void gravarArranjoArquivo(Arranjo* arranjo, const char* nomeArquivo)
 }
 
 
-void buscarArranjoArquivo(Arranjo* arranjo, const char* nomeArquivo)
+Arranjo* buscarArranjoArquivo(const char* nomeArquivo)
 {
-    if (arranjo == NULL || arranjo->array == NULL)
+    if (nomeArquivo == NULL || nomeArquivo == "")
     {
-        ERROR_LINHA("Arranjo Nullo\n");
-        return;
+        ERROR_LINHA("Nome do arquivo invalido");
+        return ((void*)0);
     }
+
+    int tamanho = 0;
     
     Arquivo* arquivo = abrirArquivo(nomeArquivo, LER);
+    Arranjo *arranjo = NULL;
 
-    fprintf(arquivo->arquivo, "%d\n", arranjo->tamanho);
+    fscanf(arquivo->arquivo, "%d", &tamanho);
+
+    arranjo = criarArranjo(tamanho, INTEIRO);
+
+    if (arranjo == NULL)
+    {
+        ERROR_LINHA("Falha ao criar um arranjo");
+        fclose(arquivo->arquivo);
+        free(arquivo);
+        return arranjo;
+    }
 
 
     switch (arranjo->tipo)
@@ -100,9 +113,10 @@ void buscarArranjoArquivo(Arranjo* arranjo, const char* nomeArquivo)
             int* array = (int*) arranjo->array;
             for(int indice = 0; indice < arranjo->tamanho; indice++)
             {
-                fprintf(arquivo->arquivo, "%d\n", array[indice]);
+                fscanf(arquivo->arquivo, "%d", &array[indice]);
             }
             break;
     }
-    
+    fecharDesalocar(arquivo);
+    return arranjo;
 }

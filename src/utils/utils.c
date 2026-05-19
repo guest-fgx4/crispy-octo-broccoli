@@ -6,12 +6,21 @@ int lerIntTeclado(const char* string)
 {
     int valor = 0;
 
-    printf(string);
+    printf("%s\n",string);
     scanf("%d", &valor); getchar();
 
     return valor;
 }
 
+char* lerLinhaTeclado(const char* string)
+{
+    char* linha = "";
+
+    printf("%s\n",string);
+    fgets(linha, 80, stdin);
+
+    return linha;
+}
 
 int randIntIntervalo(int limiteInf, int limiteSup)
 {
