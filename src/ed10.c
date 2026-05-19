@@ -116,13 +116,34 @@ void metodo_016()
     if (matriz != NULL)
     {
         mostrarMatriz(matriz);
+        Matriz* matriz_t = transporMatriz(matriz);
+        printf("\n");
+        mostrarMatriz(matriz_t);
+
         desalocarMatriz(matriz);
+        desalocarMatriz(matriz_t);
     }
 }
 
 void metodo_017()
 {
     printf("Metodo 07\n");
+
+    Matriz* matriz = buscarMatrizArquivo("dados.txt");
+
+    if (matriz != NULL)
+    {
+        if (matrizZero(matriz))
+        {
+            printf("Matriz so tem valores igual a 0\n");
+        }
+        else
+        {
+            printf("Matriz nao somente tem valores igual a 0\n");
+        }
+
+        desalocarMatriz(matriz);
+    }
 }
 
 void metodo_018()

@@ -44,6 +44,53 @@ Matriz* criarMatriz(int linha, int coluna)
 
 }
 
+Matriz* transporMatriz(Matriz* matriz)
+{
+    if (matriz == NULL || matriz->linha < 0 || matriz->coluna < 0 || matriz->dados == NULL)
+    {
+        ERROR_LINHA("Matriz invalida");
+        return NULL;
+    }
+
+    Matriz* matriz_t = criarMatriz(matriz->coluna, matriz->linha);
+
+    if (matriz_t != NULL)
+    {
+        for (int indiceLinha = 0; indiceLinha < matriz_t->linha; indiceLinha++)
+        {
+            for (int indiceColuna = 0; indiceColuna < matriz_t->coluna; indiceColuna++)
+            {
+                matriz_t->dados[indiceLinha][indiceColuna] = matriz->dados[indiceColuna][indiceLinha];
+            }
+        }
+    }
+
+    return matriz_t;
+}
+
+int matrizZero(Matriz* matriz)
+{
+    if (matriz == NULL || matriz->linha < 0 || matriz->coluna < 0 || matriz->dados == NULL)
+    {
+        ERROR_LINHA("Matriz invalida");
+        return 0;
+    }
+
+    int resposta = 1;
+
+    for (int indiceLinha = 0; indiceLinha < matriz->linha; indiceLinha++)
+    {
+        for (int indiceColuna = 0; indiceColuna < matriz->coluna; indiceColuna++)
+        {
+            if (matriz->dados[indiceLinha][indiceColuna] != 0)
+            {
+                resposta = 0;
+            }
+        }
+    }
+
+    return resposta;
+}
 
 
 void mostrarMatriz(Matriz* matriz)
