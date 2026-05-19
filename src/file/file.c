@@ -1,6 +1,8 @@
+#include<stdlib.h>
+
 #include<AEDI/file.h>
 #include<AEDI/arranjo.h>
-#include<stdlib.h>
+#include<AEDI/matriz.h>
 #include<AEDI/utils.h>
 
 char* buscarOperacao(enum operacoes_arquivo tipoOperacao)
@@ -26,18 +28,18 @@ Arquivo* abrirArquivo(const char* nomeArquivo, enum operacoes_arquivo tipoOperac
 {
     Arquivo* novoArquivo = NULL;
 
-    if (nomeArquivo == NULL)
+    if (nomeArquivo == NULL || nomeArquivo == "")
     {
-        printf("Nome do arquivo invalido");
+        ERROR_LINHA("Nome do arquivo invalido");
         return novoArquivo;
     }
 
     novoArquivo = (Arquivo*) calloc(1,sizeof(Arquivo));
     novoArquivo->arquivo = fopen(nomeArquivo,buscarOperacao(tipoOperacao));
 
-    if (novoArquivo->arquivo == NULL)
+    if (novoArquivo->arquivo == NULL || novoArquivo == NULL)
     {
-        printf("Erro ao tentar abrir arquivo");
+        ERROR_LINHA("Erro ao tentar abrir arquivo");
         return novoArquivo;
     }
 
@@ -83,15 +85,11 @@ void gravarArranjoArquivo(Arranjo* arranjo, const char* nomeArquivo)
 
 Arranjo* buscarArranjoArquivo(const char* nomeArquivo)
 {
-    if (nomeArquivo == NULL || nomeArquivo == "")
-    {
-        ERROR_LINHA("Nome do arquivo invalido");
-        return ((void*)0);
-    }
-
     int tamanho = 0;
     
     Arquivo* arquivo = abrirArquivo(nomeArquivo, LER);
+    if (arquivo == NULL) return NULL;
+
     Arranjo *arranjo = NULL;
 
     fscanf(arquivo->arquivo, "%d", &tamanho);
@@ -101,8 +99,7 @@ Arranjo* buscarArranjoArquivo(const char* nomeArquivo)
     if (arranjo == NULL)
     {
         ERROR_LINHA("Falha ao criar um arranjo");
-        fclose(arquivo->arquivo);
-        free(arquivo);
+        fecharDesalocar(arquivo);
         return arranjo;
     }
 
@@ -119,4 +116,37 @@ Arranjo* buscarArranjoArquivo(const char* nomeArquivo)
     }
     fecharDesalocar(arquivo);
     return arranjo;
+}
+
+Matriz* buscarMatrizArquivo(const char* nomeArquivo)
+{
+    int linha = 0;
+    int coluna = 0;
+    Matriz* matriz = NULL;
+
+    Arquivo* arquivo = abrirArquivo(nomeArquivo, LER);
+    if(arquivo != NULL)
+    {
+        fscanf(arquivo->arquivo, "%d", &linha);
+        fscanf(arquivo->arquivo, "%d", &coluna);
+
+        matriz = criarMatriz(linha, coluna);
+
+        if (matriz != NULL)
+        {
+            
+            for (int indiceLinha = 0; indiceLinha < linha; indiceLinha++)
+            {
+                for (int indiceColuna = 0; indiceColuna < coluna; indiceColuna++)
+                {
+                    fscanf(arquivo->arquivo, "%d", &matriz->dados[indiceLinha][indiceColuna]);
+                }
+                
+            }
+            
+        }
+    }
+
+    fecharDesalocar(arquivo);
+    return (matriz);
 }

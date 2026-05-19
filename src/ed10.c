@@ -4,6 +4,7 @@
 #include<AEDI/arranjo.h>
 #include<AEDI/file.h>
 #include<AEDI/utils.h>
+#include<AEDI/matriz.h>
 
 void metodo_011()
 {
@@ -109,6 +110,14 @@ void metodo_015()
 void metodo_016()
 {
     printf("Metodo 06\n");
+
+    Matriz* matriz = buscarMatrizArquivo("dados.txt");
+
+    if (matriz != NULL)
+    {
+        mostrarMatriz(matriz);
+        desalocarMatriz(matriz);
+    }
 }
 
 void metodo_017()

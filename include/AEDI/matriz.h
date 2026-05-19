@@ -1,11 +1,17 @@
 #ifndef AEDI_MATRIZ_
 #define AEDI_MATRIZ_
 
+typedef struct Matriz
+{
+    int linha;
+    int coluna;
+    int** dados;
+} Matriz;
 
 
-
-void criarMatriz(int linha, int coluna);
-void initMatrizRand();
+Matriz* criarMatriz(int linha, int coluna);
+void mostrarMatriz(Matriz* matriz);
+void desalocarMatriz(Matriz* matriz);
 
 
 #endif

@@ -2,6 +2,7 @@
 #define AEDI_FILE_
 #include<stdio.h>
 #include<AEDI/arranjo.h>
+#include<AEDI/matriz.h>
 
 typedef struct Arquivo{
     const char* nome;
@@ -19,6 +20,7 @@ Arquivo* abrirArquivo(const char* nomeArquivo, enum operacoes_arquivo tipoOperac
 void fecharDesalocar(Arquivo* arquivo);
 void gravarArranjoArquivo(Arranjo* arranjo, const char* nomeArquivo);
 Arranjo* buscarArranjoArquivo(const char* nomeArquivo);
+Matriz* buscarMatrizArquivo(const char* nomeArquivo);
 
 
 #endif
