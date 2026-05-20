@@ -195,20 +195,6 @@ Matriz* produtoMatriz(Matriz* matriz1, Matriz* matriz2)
 
             if (produto)
             {
-                /*
-                Posso usar a mesma variavel para o tamaho das linhas e colunas
-                ja que sao iguais
-                Preciso de dois for's para a matriz resultante posso
-                usar a posicao na matriz final para usar de referencia qual 
-                linha da matriz 1 preciso estar e qual coluna da matriz 2 preciso
-                estar.
-
-                Usar um for dentro do outros for's para fazer o somatorio
-                resultante indo de 0 ate matriz1->coluna ou linha
-
-                posso guardar esse valor em uma variavel tbm ja que ele e' 
-                constante
-                */
                 int somatorio = 0;
                 const int tamanhoSomatorio = matriz1->coluna;
 
