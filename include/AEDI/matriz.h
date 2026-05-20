@@ -1,6 +1,12 @@
 #ifndef AEDI_MATRIZ_
 #define AEDI_MATRIZ_
 
+enum tiposMatriz
+{
+    mINTEIRO = 0,
+    mDOUBLE
+};
+
 typedef struct Matriz
 {
     int linha;
@@ -8,6 +14,12 @@ typedef struct Matriz
     int** dados;
 } Matriz;
 
+typedef struct DMatriz
+{
+    int linha;
+    int coluna;
+    double** dados;
+} DMatriz;
 
 Matriz* criarMatriz(int linha, int coluna);
 void mostrarMatriz(Matriz* matriz);
