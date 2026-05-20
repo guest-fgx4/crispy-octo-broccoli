@@ -149,16 +149,62 @@ void metodo_017()
 void metodo_018()
 {
     printf("Metodo 08\n");
+
+    Matriz* matriz1 = buscarMatrizArquivo("dados.txt");
+    Matriz* matriz2 = buscarMatrizArquivo("dados.txt");
+
+    if (matriz1 && matriz2)
+    {
+        if(compararMatriz(matriz1, matriz2))
+        {
+            printf("Matriz iguais!\n");
+        }
+        else
+        {
+            printf("Matriz nao iguais!\n");
+        }
+    }
+
+    desalocarMatriz(matriz1);
+    desalocarMatriz(matriz2);
 }
 
 void metodo_019()
 {
     printf("Metodo 09\n");
+
+    Matriz* matriz1 = buscarMatrizArquivo("dados.txt");
+    Matriz* matriz2 = buscarMatrizArquivo("dados.txt");
+
+    if (matriz1 && matriz2)
+    {
+        printf("Valor total da adicao entre matriz1 e matriz2: %d", somarConstanteMatriz(matriz1, -1, matriz2));
+    }
+
+    desalocarMatriz(matriz1);
+    desalocarMatriz(matriz2);
 }
 
 void metodo_020()
 {
     printf("Metodo 10\n");
+
+    Matriz* matriz1 = buscarMatrizArquivo("dados.txt");
+    Matriz* matriz2 = buscarMatrizArquivo("dados.txt");
+
+    mostrarMatriz(matriz1);
+    mostrarMatriz(matriz2);
+
+    Matriz* produto = produtoMatriz(matriz1, matriz2);
+
+    if (produto)
+    {
+        mostrarMatriz(produto);
+    }
+
+    desalocarMatriz(matriz1);
+    desalocarMatriz(matriz2);
+    desalocarMatriz(produto);
 }
 
 
@@ -172,7 +218,8 @@ int main(void)
   {
     printf("Entrar com opcao para selecionar metodo (1-10)\n");
 
-    scanf("%d", &opcao);
+    scanf("%d", &opcao); 
+    // getchar();
 
     switch (opcao)
     {

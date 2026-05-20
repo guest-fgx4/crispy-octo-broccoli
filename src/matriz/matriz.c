@@ -116,3 +116,118 @@ void desalocarMatriz(Matriz* matriz)
     }
     free(matriz);
 }
+
+int compararMatriz(Matriz* matriz1, Matriz* matriz2)
+{
+    int resposta = 1;
+
+    if (
+        matriz1 != NULL || matriz2 != NULL ||
+        matriz1->dados != NULL || matriz2->dados != NULL)
+    {
+        if (matriz1->coluna == matriz2->coluna || matriz1->linha == matriz2->linha)
+        {
+            for (int indiceLinha = 0; (indiceLinha < matriz1->linha) && resposta; indiceLinha++)
+            {
+                int indiceColuna = 0;
+                while (indiceColuna < matriz1->coluna && resposta)
+                {
+                    resposta = (matriz1->dados[indiceLinha][indiceColuna] == matriz2->dados[indiceLinha][indiceColuna]);
+                    indiceColuna++;
+                }
+            }
+        }
+        else
+        {
+            resposta = 0;
+        }
+    }
+    else
+    {
+        resposta = 0;
+    }
+
+    return resposta;
+}
+
+int somarConstanteMatriz(Matriz* matriz1, int constante, Matriz* matriz2)
+{
+    int soma = 0;
+
+    if (
+        matriz1 != NULL || matriz2 != NULL ||
+        matriz1->dados != NULL || matriz2->dados != NULL)
+    {
+        if (matriz1->coluna == matriz2->coluna || matriz1->linha == matriz2->linha)
+        {
+            for (int indiceLinha = 0; indiceLinha < matriz1->linha; indiceLinha++)
+            {
+                for (int indiceColuna = 0; indiceColuna < matriz1->coluna; indiceColuna++)
+                {
+                    soma = (matriz1->dados[indiceLinha][indiceColuna] + (constante * matriz2->dados[indiceLinha][indiceColuna]));
+                }
+            }
+        }
+        else
+        {
+            soma = 0;
+        }
+    }
+    else
+    {
+        soma = 0;
+    }
+
+    return soma;
+}
+
+Matriz* produtoMatriz(Matriz* matriz1, Matriz* matriz2)
+{
+    Matriz* produto = NULL;
+
+    if (
+        matriz1 != NULL || matriz2 != NULL ||
+        matriz1->dados != NULL || matriz2->dados != NULL)
+    {
+        if (matriz1->coluna == matriz2->linha)
+        {
+            produto = criarMatriz(matriz1->linha, matriz2->coluna);
+
+            if (produto)
+            {
+                /*
+                Posso usar a mesma variavel para o tamaho das linhas e colunas
+                ja que sao iguais
+                Preciso de dois for's para a matriz resultante posso
+                usar a posicao na matriz final para usar de referencia qual 
+                linha da matriz 1 preciso estar e qual coluna da matriz 2 preciso
+                estar.
+
+                Usar um for dentro do outros for's para fazer o somatorio
+                resultante indo de 0 ate matriz1->coluna ou linha
+
+                posso guardar esse valor em uma variavel tbm ja que ele e' 
+                constante
+                */
+                int somatorio = 0;
+                const int tamanhoSomatorio = matriz1->coluna;
+
+                for (int indiceLinha = 0; indiceLinha < produto->linha; indiceLinha++)
+                {
+                    for (int indiceColuna = 0; indiceColuna < produto->coluna; indiceColuna++)
+                    {
+                        // soma = (matriz1->dados[indiceLinha][indiceColuna] + (constante * matriz2->dados[indiceLinha][indiceColuna]));
+                        for (int i = 0; i < tamanhoSomatorio; i++)
+                        {
+                            somatorio = somatorio + (matriz1->dados[indiceLinha][i] * matriz2->dados[i][indiceColuna]);
+                        }
+                        produto->dados[indiceLinha][indiceColuna] = somatorio;
+                        somatorio = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    return produto;
+}

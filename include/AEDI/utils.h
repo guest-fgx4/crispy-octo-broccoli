@@ -7,7 +7,7 @@
 #define CHAR sizeof(char)
 #define INT sizeof(int)
 #define FLOAT sizeof(float)
-#define DOUBLE sizeof(DOUBLE)
+#define DOUBLE sizeof(double)
 
 #define ERROR_LINHA(string) \
     printf("Error: %s:%d - %s\n",__FILE__, __LINE__, string )
