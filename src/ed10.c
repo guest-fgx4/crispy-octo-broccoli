@@ -195,7 +195,7 @@ void metodo_020()
     mostrarMatriz(matriz1);
     mostrarMatriz(matriz2);
 
-    Matriz* produto = produtoMatriz(matriz1, matriz2);
+    Matriz* produto = (Matriz*) produtoMatriz(matriz1, matriz2);
 
     if (produto)
     {

@@ -3,87 +3,85 @@
 
 #include<AEDI/matriz.h>
 #include<AEDI/utils.h>
+#include "matrizHelpers.h"
 
 void* criarMatriz(int linha, int coluna, enum tiposMatriz tipo)
 {
     if (linha < 0 || coluna < 0)
     {
         ERROR_LINHA("Valores linha ou coluna invalidos");
+        return NULL;
     }
-    else
+
+    Matriz* matriz = NULL;
+    matriz = (Matriz*) malloc (1*sizeof(Matriz));
+
+    if (matriz == NULL)
     {
-        switch (tipo)
-        {
-        case mINTEIRO:
-                Matriz* matriz = NULL;
+        ERROR_LINHA("Erro ao criar a matriz");
+        return NULL;
+    }
 
-                matriz = (Matriz*) malloc (1*sizeof(Matriz));
+    switch (tipo)
+    {
+    case mINTEIRO:
 
-                if (matriz == NULL)
-                {
-                    ERROR_LINHA("Erro ao criar a matriz");
-                    return matriz;
-                }
+            // XXX: idea sugerida por AI para reduzir o numero de returns:
+            //      Usar um rotina de clearn up baseado em gotos.
+            //      OBS: o proprio kernel do linux ja tem um metodo mais
+            //      avancado para limpar ao retornar do sistema sem utilizar
+            //      gotos (scope-based cleanup helper)
 
-                matriz->dados = (int**) malloc (linha * S_PTR_INT);
+            matriz->dados = malloc (linha * S_PTRR_INT);
 
-                if (matriz->dados == NULL)
-                {
-                    ERROR_LINHA("erro ao criar dados da matriz");
-                    return matriz;
-                }
-
-                
+            if (matriz->dados == NULL)
+            {
+                ERROR_LINHA("erro ao criar dados da matriz");
+            }
+            else
+            {
                 for (int indice = 0; indice < linha; indice++)
                 {
                     matriz->dados[indice] = (int*) malloc(coluna * S_INT);
-                }
-                
+                }   
 
                 matriz->coluna = coluna;
                 matriz->linha = linha;
-            break;
+                matriz->format = "%d";
+                matriz->tamamhoTipo = S_INT;
+            }
+        break;
 
-        case mDOUBLE:
-                DMatriz* Dmatriz = NULL;
+    case mDOUBLE:
+            matriz->dados =  malloc (linha * S_PTRR_DOUBLE);
 
-                Dmatriz = (DMatriz*) malloc (1*sizeof(DMatriz));
-
-                if (Dmatriz == NULL)
-                {
-                    ERROR_LINHA("Erro ao criar a matriz");
-                    return Dmatriz;
-                }
-
-                Dmatriz->dados = (double**) malloc (linha * S_PTR_DOUBLE);
-
-                if (Dmatriz->dados == NULL)
-                {
-                    ERROR_LINHA("erro ao criar dados da matriz");
-                    return Dmatriz;
-                }
-
-                
+            if (matriz->dados == NULL)
+            {
+                ERROR_LINHA("erro ao criar dados da matriz");
+            }
+            else
+            {
                 for (int indice = 0; indice < linha; indice++)
                 {
-                    Dmatriz->dados[indice] = (double*) malloc(coluna * S_DOUBLE);
-                }
+                    matriz->dados[indice] = (double*) malloc(coluna * S_DOUBLE);
+                }   
                 
-
-                Dmatriz->coluna = coluna;
-                Dmatriz->linha = linha;
-
-                return Dmatriz;
+                matriz->coluna = coluna;
+                matriz->linha = linha;
+                matriz->format = "%lf";
+                matriz->tamamhoTipo = S_DOUBLE;
+            }
+    break;
+    
+    default:
+        ERROR_LINHA("Nao foi possivel encontrar o tipo da matriz");
         break;
-        
-        default:
-            ERROR_LINHA("Nao foi possivel encontrar o tipo da matriz");
-            break;
-        }
     }
+
+    return matriz;
 }
 
-Matriz* transporMatriz(Matriz* matriz)
+void* transporMatriz(Matriz* matriz)
 {
     if (matriz == NULL || matriz->linha < 0 || matriz->coluna < 0 || matriz->dados == NULL)
     {
@@ -91,7 +89,7 @@ Matriz* transporMatriz(Matriz* matriz)
         return NULL;
     }
 
-    Matriz* matriz_t = (Matriz*) criarMatriz(matriz->coluna, matriz->linha, mINTEIRO);
+    Matriz* matriz_t = (Matriz*) criarMatriz(matriz->coluna, matriz->linha, matriz->tipo);
 
     if (matriz_t != NULL)
     {
@@ -99,7 +97,17 @@ Matriz* transporMatriz(Matriz* matriz)
         {
             for (int indiceColuna = 0; indiceColuna < matriz_t->coluna; indiceColuna++)
             {
-                matriz_t->dados[indiceLinha][indiceColuna] = matriz->dados[indiceColuna][indiceLinha];
+                // matriz_t->dados[indiceLinha][indiceColuna] = matriz->dados[indiceColuna][indiceLinha];
+
+                // void* target = (char*)matriz->dados + (matriz->tamamhoTipo * (indiceColuna*2) + matriz->tamamhoTipo * indiceLinha);
+                // void* target2 = (char*)matriz_t->dados + (matriz_t->tamamhoTipo * (indiceLinha*2) + matriz_t->tamamhoTipo * indiceColuna);
+
+                // void* target = calcularOffset((char*)matriz->dados,matriz->tamamhoTipo, indiceColuna, indiceLinha);
+                // void* target2 = calcularOffset((char*)matriz_t->dados,matriz_t->tamamhoTipo, indiceLinha, indiceColuna);
+
+                // memcpy(target2, (const void*)target, sizeof(int));
+
+                setElementoMatriz(matriz_t, indiceLinha, indiceColuna, calcularOffset((char*)matriz->dados,matriz->tamamhoTipo, indiceColuna, indiceLinha));
             }
         }
     }
@@ -116,17 +124,19 @@ int matrizZero(Matriz* matriz)
     }
 
     int resposta = 1;
-
-    for (int indiceLinha = 0; indiceLinha < matriz->linha; indiceLinha++)
+    const int tamamhoMatriz = matriz->linha * matriz->coluna;
+    int contador = 0;
+    while (contador < tamamhoMatriz && resposta)
     {
-        for (int indiceColuna = 0; indiceColuna < matriz->coluna; indiceColuna++)
+        if (!comprarElemento(matriz, (const void*)0, contador))
         {
-            if (matriz->dados[indiceLinha][indiceColuna] != 0)
-            {
-                resposta = 0;
-            }
+            resposta = 0;
         }
+        contador++;
     }
+    
+
+
 
     return resposta;
 }
@@ -140,7 +150,9 @@ void mostrarMatriz(Matriz* matriz)
         {
             for (int indiceColuna = 0; indiceColuna < matriz->coluna; indiceColuna++)
             {
-                printf("%d ", matriz->dados[indiceLinha][indiceColuna]);
+                // void* target = (char*)matriz->dados + (matriz->tamamhoTipo * (indiceLinha*2) + matriz->tamamhoTipo * indiceColuna);
+                void* target = calcularOffset((char*)matriz->dados, matriz->tamamhoTipo, indiceLinha, indiceColuna);
+                printf("%d ", *((int*)target));
             }
             printf("\n");
         }
@@ -166,15 +178,29 @@ int compararMatriz(Matriz* matriz1, Matriz* matriz2)
     {
         if (matriz1->coluna == matriz2->coluna || matriz1->linha == matriz2->linha)
         {
-            for (int indiceLinha = 0; (indiceLinha < matriz1->linha) && resposta; indiceLinha++)
+            // for (int indiceLinha = 0; (indiceLinha < matriz1->linha) && resposta; indiceLinha++)
+            // {
+            //     int indiceColuna = 0;
+            //     while (indiceColuna < matriz1->coluna && resposta)
+            //     {
+            //         resposta = (matriz1->dados[indiceLinha][indiceColuna] == matriz2->dados[indiceLinha][indiceColuna]);
+            //         indiceColuna++;
+            //     }
+            // }
+
+            const int tamamhoMatriz = matriz1->linha * matriz1->coluna;
+            int contador = 0;
+            while (contador < tamamhoMatriz && resposta)
             {
-                int indiceColuna = 0;
-                while (indiceColuna < matriz1->coluna && resposta)
+                // retorna um valor diferente de 0 se diferentes
+                if (compararElementoPosicao(matriz1, matriz2, contador))
                 {
-                    resposta = (matriz1->dados[indiceLinha][indiceColuna] == matriz2->dados[indiceLinha][indiceColuna]);
-                    indiceColuna++;
+                    resposta = 0;
                 }
+                contador++;
             }
+
+
         }
         else
         {
@@ -203,7 +229,12 @@ int somarConstanteMatriz(Matriz* matriz1, int constante, Matriz* matriz2)
             {
                 for (int indiceColuna = 0; indiceColuna < matriz1->coluna; indiceColuna++)
                 {
-                    soma = soma + (matriz1->dados[indiceLinha][indiceColuna] + (constante * matriz2->dados[indiceLinha][indiceColuna]));
+                    // soma = soma + (matriz1->dados[indiceLinha][indiceColuna] + (constante * matriz2->dados[indiceLinha][indiceColuna]));
+                    // soma = soma + *((int*)calcularOffset((char*)matriz1->dados,matriz1->tamamhoTipo, indiceLinha, indiceColuna));
+                    // soma = soma + (constante * (*((int*)calcularOffset((char*)matriz2->dados,matriz2->tamamhoTipo, indiceLinha, indiceColuna))));
+
+                    soma = soma + (getElementoMatriz(matriz1, indiceLinha, indiceColuna));
+                    soma = soma + (constante * getElementoMatriz(matriz2, indiceLinha, indiceColuna));
                 }
             }
         }
@@ -220,7 +251,7 @@ int somarConstanteMatriz(Matriz* matriz1, int constante, Matriz* matriz2)
     return soma;
 }
 
-Matriz* produtoMatriz(Matriz* matriz1, Matriz* matriz2)
+void* produtoMatriz(Matriz* matriz1, Matriz* matriz2)
 {
     Matriz* produto = NULL;
 
@@ -242,11 +273,15 @@ Matriz* produtoMatriz(Matriz* matriz1, Matriz* matriz2)
                     for (int indiceColuna = 0; indiceColuna < produto->coluna; indiceColuna++)
                     {
                         // soma = (matriz1->dados[indiceLinha][indiceColuna] + (constante * matriz2->dados[indiceLinha][indiceColuna]));
+                        // *((int*)calcularOffset((char*)matriz1->dados,matriz1->tamamhoTipo, indiceLinha, indiceColuna));
                         for (int i = 0; i < tamanhoSomatorio; i++)
                         {
-                            somatorio = somatorio + (matriz1->dados[indiceLinha][i] * matriz2->dados[i][indiceColuna]);
+                            // somatorio = somatorio + (matriz1->dados[indiceLinha][i] * matriz2->dados[i][indiceColuna]);
+                            somatorio = somatorio + (getElementoMatriz(matriz1, indiceLinha, i) * getElementoMatriz(matriz2, i, indiceColuna));
                         }
-                        produto->dados[indiceLinha][indiceColuna] = somatorio;
+                        // produto->dados[indiceLinha][indiceColuna] = somatorio;
+                        setElementoMatriz(produto,indiceLinha, indiceColuna, (const void*)somatorio);
+
                         somatorio = 0;
                     }
                 }
