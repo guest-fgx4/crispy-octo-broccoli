@@ -118,7 +118,7 @@ Arranjo* buscarArranjoArquivo(const char* nomeArquivo)
     return arranjo;
 }
 
-Matriz* buscarMatrizArquivo(const char* nomeArquivo)
+void* buscarMatrizArquivo(const char* nomeArquivo)
 {
     int linha = 0;
     int coluna = 0;
@@ -130,7 +130,7 @@ Matriz* buscarMatrizArquivo(const char* nomeArquivo)
         fscanf(arquivo->arquivo, "%d", &linha);
         fscanf(arquivo->arquivo, "%d", &coluna);
 
-        matriz = criarMatriz(linha, coluna);
+        matriz = (Matriz*) criarMatriz(linha, coluna, mINTEIRO);
 
         if (matriz != NULL)
         {

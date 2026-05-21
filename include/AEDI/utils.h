@@ -3,15 +3,19 @@
 
 #include<stdio.h>
 
-#define BOOL 1
-#define CHAR sizeof(char)
-#define PTR_CHAR sizeof(char*)
-#define INT sizeof(int)
-#define PTR_INT sizeof(int*)
-#define FLOAT sizeof(float)
-#define PTR_FLOAT sizeof(float*)
-#define DOUBLE sizeof(double)
-#define PTR_DOUBLE sizeof(double*)
+#define S_BOOL 1
+#define S_CHAR sizeof(char)
+#define S_PTR_CHAR sizeof(char*)
+#define S_PTRR_CHAR sizeof(char**)
+#define S_INT sizeof(int)
+#define S_PTR_INT sizeof(int*)
+#define S_PTRR_INT sizeof(int**)
+#define S_FLOAT sizeof(float)
+#define S_PTR_FLOAT sizeof(float*)
+#define S_PTRR_FLOAT sizeof(float**)
+#define S_DOUBLE sizeof(double)
+#define S_PTR_DOUBLE sizeof(double*)
+#define S_PTRR_DOUBLE sizeof(double**)
 
 
 #define ERROR_LINHA(string) \

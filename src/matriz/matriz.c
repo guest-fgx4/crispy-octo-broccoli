@@ -4,44 +4,83 @@
 #include<AEDI/matriz.h>
 #include<AEDI/utils.h>
 
-Matriz* criarMatriz(int linha, int coluna)
+void* criarMatriz(int linha, int coluna, enum tiposMatriz tipo)
 {
-    Matriz* matriz = NULL;
-
     if (linha < 0 || coluna < 0)
     {
         ERROR_LINHA("Valores linha ou coluna invalidos");
-        return matriz;
     }
-
-    matriz = (Matriz*) malloc (1*sizeof(Matriz));
-
-    if (matriz == NULL)
+    else
     {
-        ERROR_LINHA("Erro ao criar a matriz");
-        return matriz;
+        switch (tipo)
+        {
+        case mINTEIRO:
+                Matriz* matriz = NULL;
+
+                matriz = (Matriz*) malloc (1*sizeof(Matriz));
+
+                if (matriz == NULL)
+                {
+                    ERROR_LINHA("Erro ao criar a matriz");
+                    return matriz;
+                }
+
+                matriz->dados = (int**) malloc (linha * S_PTR_INT);
+
+                if (matriz->dados == NULL)
+                {
+                    ERROR_LINHA("erro ao criar dados da matriz");
+                    return matriz;
+                }
+
+                
+                for (int indice = 0; indice < linha; indice++)
+                {
+                    matriz->dados[indice] = (int*) malloc(coluna * S_INT);
+                }
+                
+
+                matriz->coluna = coluna;
+                matriz->linha = linha;
+            break;
+
+        case mDOUBLE:
+                DMatriz* Dmatriz = NULL;
+
+                Dmatriz = (DMatriz*) malloc (1*sizeof(DMatriz));
+
+                if (Dmatriz == NULL)
+                {
+                    ERROR_LINHA("Erro ao criar a matriz");
+                    return Dmatriz;
+                }
+
+                Dmatriz->dados = (double**) malloc (linha * S_PTR_DOUBLE);
+
+                if (Dmatriz->dados == NULL)
+                {
+                    ERROR_LINHA("erro ao criar dados da matriz");
+                    return Dmatriz;
+                }
+
+                
+                for (int indice = 0; indice < linha; indice++)
+                {
+                    Dmatriz->dados[indice] = (double*) malloc(coluna * S_DOUBLE);
+                }
+                
+
+                Dmatriz->coluna = coluna;
+                Dmatriz->linha = linha;
+
+                return Dmatriz;
+        break;
+        
+        default:
+            ERROR_LINHA("Nao foi possivel encontrar o tipo da matriz");
+            break;
+        }
     }
-
-    matriz->dados = (int**) malloc (linha * sizeof(int*));
-
-    if (matriz->dados == NULL)
-    {
-        ERROR_LINHA("erro ao criar dados da matriz");
-        return matriz;
-    }
-
-    
-    for (int indice = 0; indice < linha; indice++)
-    {
-        matriz->dados[indice] = (int*) malloc(coluna * sizeof(int));
-    }
-    
-
-    matriz->coluna = coluna;
-    matriz->linha = linha;
-
-    return matriz;
-
 }
 
 Matriz* transporMatriz(Matriz* matriz)
@@ -52,7 +91,7 @@ Matriz* transporMatriz(Matriz* matriz)
         return NULL;
     }
 
-    Matriz* matriz_t = criarMatriz(matriz->coluna, matriz->linha);
+    Matriz* matriz_t = (Matriz*) criarMatriz(matriz->coluna, matriz->linha, mINTEIRO);
 
     if (matriz_t != NULL)
     {
@@ -164,18 +203,18 @@ int somarConstanteMatriz(Matriz* matriz1, int constante, Matriz* matriz2)
             {
                 for (int indiceColuna = 0; indiceColuna < matriz1->coluna; indiceColuna++)
                 {
-                    soma = (matriz1->dados[indiceLinha][indiceColuna] + (constante * matriz2->dados[indiceLinha][indiceColuna]));
+                    soma = soma + (matriz1->dados[indiceLinha][indiceColuna] + (constante * matriz2->dados[indiceLinha][indiceColuna]));
                 }
             }
         }
         else
         {
-            soma = 0;
+            soma = 0xffff;
         }
     }
     else
     {
-        soma = 0;
+        soma = 0xffff;
     }
 
     return soma;
@@ -191,7 +230,7 @@ Matriz* produtoMatriz(Matriz* matriz1, Matriz* matriz2)
     {
         if (matriz1->coluna == matriz2->linha)
         {
-            produto = criarMatriz(matriz1->linha, matriz2->coluna);
+            produto = (Matriz* ) criarMatriz(matriz1->linha, matriz2->coluna, mINTEIRO);
 
             if (produto)
             {

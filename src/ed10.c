@@ -111,7 +111,7 @@ void metodo_016()
 {
     printf("Metodo 06\n");
 
-    Matriz* matriz = buscarMatrizArquivo("dados.txt");
+    Matriz* matriz = (Matriz*) buscarMatrizArquivo("dados.txt");
 
     if (matriz != NULL)
     {
@@ -129,7 +129,7 @@ void metodo_017()
 {
     printf("Metodo 07\n");
 
-    Matriz* matriz = buscarMatrizArquivo("dados.txt");
+    Matriz* matriz = (Matriz*) buscarMatrizArquivo("dados.txt");
 
     if (matriz != NULL)
     {
@@ -150,8 +150,8 @@ void metodo_018()
 {
     printf("Metodo 08\n");
 
-    Matriz* matriz1 = buscarMatrizArquivo("dados.txt");
-    Matriz* matriz2 = buscarMatrizArquivo("dados.txt");
+    Matriz* matriz1 = (Matriz*) buscarMatrizArquivo("dados.txt");
+    Matriz* matriz2 = (Matriz*) buscarMatrizArquivo("dados.txt");
 
     if (matriz1 && matriz2)
     {
@@ -173,12 +173,12 @@ void metodo_019()
 {
     printf("Metodo 09\n");
 
-    Matriz* matriz1 = buscarMatrizArquivo("dados.txt");
-    Matriz* matriz2 = buscarMatrizArquivo("dados.txt");
+    Matriz* matriz1 = (Matriz*) buscarMatrizArquivo("dados.txt");
+    Matriz* matriz2 = (Matriz*) buscarMatrizArquivo("dados.txt");
 
     if (matriz1 && matriz2)
     {
-        printf("Valor total da adicao entre matriz1 e matriz2: %d", somarConstanteMatriz(matriz1, -1, matriz2));
+        printf("Valor total da adicao entre matriz1 e matriz2: %d\n", somarConstanteMatriz(matriz1, -1, matriz2));
     }
 
     desalocarMatriz(matriz1);
@@ -189,8 +189,8 @@ void metodo_020()
 {
     printf("Metodo 10\n");
 
-    Matriz* matriz1 = buscarMatrizArquivo("dados.txt");
-    Matriz* matriz2 = buscarMatrizArquivo("dados.txt");
+    Matriz* matriz1 = (Matriz*) buscarMatrizArquivo("dados.txt");
+    Matriz* matriz2 = (Matriz*) buscarMatrizArquivo("dados.txt");
 
     mostrarMatriz(matriz1);
     mostrarMatriz(matriz2);

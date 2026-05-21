@@ -21,7 +21,7 @@ typedef struct DMatriz
     double** dados;
 } DMatriz;
 
-Matriz* criarMatriz(int linha, int coluna);
+void* criarMatriz(int linha, int coluna, enum tiposMatriz tipo);
 void mostrarMatriz(Matriz* matriz);
 void desalocarMatriz(Matriz* matriz);
 Matriz* transporMatriz(Matriz* matriz);

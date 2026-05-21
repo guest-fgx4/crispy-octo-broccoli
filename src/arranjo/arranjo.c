@@ -18,7 +18,7 @@ Arranjo* criarArranjo(int tamanho, enum tipoArranjo tipo)
         {
             case INTEIRO:
                 novoArranjo->tipo = tipo;
-                novoArranjo->array = malloc(tamanho * INT);
+                novoArranjo->array = malloc(tamanho * S_INT);
                 if (novoArranjo->array != NULL)
                 {
                     // adicionar tamanho apenas depois de alocar dados

@@ -20,7 +20,7 @@ Arquivo* abrirArquivo(const char* nomeArquivo, enum operacoes_arquivo tipoOperac
 void fecharDesalocar(Arquivo* arquivo);
 void gravarArranjoArquivo(Arranjo* arranjo, const char* nomeArquivo);
 Arranjo* buscarArranjoArquivo(const char* nomeArquivo);
-Matriz* buscarMatrizArquivo(const char* nomeArquivo);
+void* buscarMatrizArquivo(const char* nomeArquivo);
 
 
 #endif
