@@ -125,21 +125,21 @@ int matrizZero(Matriz* matriz)
         return 0;
     }
 
+    const short zero = 0;
     int resposta = 1;
     const int tamamhoMatriz = matriz->linha * matriz->coluna;
     int contador = 0;
+
     while (contador < tamamhoMatriz && resposta)
     {
-        if (!comprarElemento(matriz, (const void*)0, contador))
+        // printf("Valor %d\n", !comprarElemento(matriz, (const void*)&zero, contador));
+        if (comprarElemento(matriz, (const void*)&zero, contador))
         {
             resposta = 0;
         }
         contador++;
     }
     
-
-
-
     return resposta;
 }
 
