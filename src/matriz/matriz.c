@@ -48,6 +48,7 @@ void* criarMatriz(int linha, int coluna, enum tiposMatriz tipo)
                 matriz->coluna = coluna;
                 matriz->linha = linha;
                 matriz->format = "%d";
+                matriz->tipo = mINTEIRO;
                 matriz->tamamhoTipo = S_INT;
             }
         break;
@@ -69,6 +70,7 @@ void* criarMatriz(int linha, int coluna, enum tiposMatriz tipo)
                 matriz->coluna = coluna;
                 matriz->linha = linha;
                 matriz->format = "%lf";
+                matriz->tipo = mDOUBLE;
                 matriz->tamamhoTipo = S_DOUBLE;
             }
     break;
@@ -160,11 +162,14 @@ void mostrarMatriz(Matriz* matriz)
 }
 
 void desalocarMatriz(Matriz* matriz)
-{
-    for (int indice = 0; indice < matriz->linha; indice++)
-    {
-        free(matriz->dados[indice]);
-    }
+{   
+    void* target = 0;
+    // for (int indice = 0; indice < (matriz->linha * matriz->coluna); indice++)
+    // {
+    //     target = calcularOffset((char*)matriz->dados,matriz->tamamhoTipo,0,indice);
+    //     free(target);
+    // }
+    free(matriz->dados);
     free(matriz);
 }
 
@@ -280,7 +285,7 @@ void* produtoMatriz(Matriz* matriz1, Matriz* matriz2)
                             somatorio = somatorio + (getElementoMatriz(matriz1, indiceLinha, i) * getElementoMatriz(matriz2, i, indiceColuna));
                         }
                         // produto->dados[indiceLinha][indiceColuna] = somatorio;
-                        setElementoMatriz(produto,indiceLinha, indiceColuna, (const void*)somatorio);
+                        setElementoMatriz(produto,indiceLinha, indiceColuna, (const void*)&somatorio);
 
                         somatorio = 0;
                     }

@@ -1,4 +1,5 @@
 #include<stdlib.h>
+#include<string.h>
 
 #include<AEDI/file.h>
 #include<AEDI/arranjo.h>
@@ -122,6 +123,7 @@ void* buscarMatrizArquivo(const char* nomeArquivo)
 {
     int linha = 0;
     int coluna = 0;
+    void* numero = 0;
     Matriz* matriz = NULL;
 
     Arquivo* arquivo = abrirArquivo(nomeArquivo, LER);
@@ -139,7 +141,11 @@ void* buscarMatrizArquivo(const char* nomeArquivo)
             {
                 for (int indiceColuna = 0; indiceColuna < coluna; indiceColuna++)
                 {
-                    fscanf(arquivo->arquivo, "%d", &matriz->dados[indiceLinha][indiceColuna]);
+                    // fscanf(arquivo->arquivo, "%d", &matriz->dados[indiceLinha][indiceColuna]);
+                    void* target = (char*)matriz->dados + (indiceLinha*2 * matriz->tamamhoTipo + indiceColuna * matriz->tamamhoTipo);
+                    fscanf(arquivo->arquivo, "%d", &numero);
+
+                    memcpy(target, (const void*)&numero, matriz->tamamhoTipo);
                 }
                 
             }
