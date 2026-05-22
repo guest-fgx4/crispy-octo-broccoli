@@ -49,10 +49,13 @@ void* criarMatriz(int linha, int coluna, enum tiposMatriz tipo)
                         significativa? 
                         Uma possivel mudanca pode ser na hora de desalocar, ja que e' 
                         nessesario desalocar de mesma forma que foi alocado anteriormente
+
+                        ----- Metodo antigo abaixo -----
                 */
+                // matriz->dados = malloc ((linha * coluna) * S_INT);
                 // for (int indice = 0; indice < linha; indice++)
                 // {
-                //     matriz->dados[indice] = malloc(coluna * S_INT);
+                //     matriz->dados[indice] = malloc(coluna * sizeof(int*));
                 // }   
 
                 matriz->coluna = coluna;
