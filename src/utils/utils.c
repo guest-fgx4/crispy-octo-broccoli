@@ -43,5 +43,3 @@ int randIntIntervalo(int limiteInf, int limiteSup)
 
     return resposta;
 }
-
-

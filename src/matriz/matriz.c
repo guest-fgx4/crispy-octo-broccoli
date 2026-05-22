@@ -14,7 +14,7 @@ void* criarMatriz(int linha, int coluna, enum tiposMatriz tipo)
     }
 
     Matriz* matriz = NULL;
-    matriz = (Matriz*) malloc (1*sizeof(Matriz));
+    matriz = malloc (1*sizeof(Matriz));
 
     if (matriz == NULL)
     {
@@ -26,13 +26,14 @@ void* criarMatriz(int linha, int coluna, enum tiposMatriz tipo)
     {
     case mINTEIRO:
 
-            // XXX: idea sugerida por AI para reduzir o numero de returns:
-            //      Usar um rotina de clearn up baseado em gotos.
-            //      OBS: o proprio kernel do linux ja tem um metodo mais
-            //      avancado para limpar ao retornar do sistema sem utilizar
-            //      gotos (scope-based cleanup helper)
+            // README:  idea sugerida por AI para reduzir o numero de returns: 
+            //          Usar um rotina de clearn up baseado em gotos. Para um programacao
+            //          em C seria mais interessante?
+            //          OBS: o proprio kernel do linux ja tem um metodo mais
+            //          avancado para limpar ao retornar do sistema sem utilizar
+            //          gotos (scope-based cleanup helper)
 
-            matriz->dados = malloc (linha * S_PTRR_INT);
+            matriz->dados = malloc ((linha * coluna) * S_INT);
 
             if (matriz->dados == NULL)
             {
@@ -40,10 +41,19 @@ void* criarMatriz(int linha, int coluna, enum tiposMatriz tipo)
             }
             else
             {
-                for (int indice = 0; indice < linha; indice++)
-                {
-                    matriz->dados[indice] = (int*) malloc(coluna * S_INT);
-                }   
+
+                /*
+                README: Pesando em alocamento em memoria com void* acho que pode ser feito
+                        o alocamento direto apenas obtento o tamanho total ao inves de
+                        fazer do metodo convencional (usando double**) ha alguma mudanca
+                        significativa? 
+                        Uma possivel mudanca pode ser na hora de desalocar, ja que e' 
+                        nessesario desalocar de mesma forma que foi alocado anteriormente
+                */
+                // for (int indice = 0; indice < linha; indice++)
+                // {
+                //     matriz->dados[indice] = malloc(coluna * S_INT);
+                // }   
 
                 matriz->coluna = coluna;
                 matriz->linha = linha;
@@ -54,7 +64,7 @@ void* criarMatriz(int linha, int coluna, enum tiposMatriz tipo)
         break;
 
     case mDOUBLE:
-            matriz->dados =  malloc (linha * S_PTRR_DOUBLE);
+            matriz->dados =  malloc ((linha * coluna) * S_DOUBLE);
 
             if (matriz->dados == NULL)
             {
@@ -62,10 +72,10 @@ void* criarMatriz(int linha, int coluna, enum tiposMatriz tipo)
             }
             else
             {
-                for (int indice = 0; indice < linha; indice++)
-                {
-                    matriz->dados[indice] = (double*) malloc(coluna * S_DOUBLE);
-                }   
+                // for (int indice = 0; indice < linha; indice++)
+                // {
+                //     matriz->dados[indice] = (double*) malloc(coluna * S_DOUBLE);
+                // }   
                 
                 matriz->coluna = coluna;
                 matriz->linha = linha;
@@ -99,16 +109,6 @@ void* transporMatriz(Matriz* matriz)
         {
             for (int indiceColuna = 0; indiceColuna < matriz_t->coluna; indiceColuna++)
             {
-                // matriz_t->dados[indiceLinha][indiceColuna] = matriz->dados[indiceColuna][indiceLinha];
-
-                // void* target = (char*)matriz->dados + (matriz->tamamhoTipo * (indiceColuna*2) + matriz->tamamhoTipo * indiceLinha);
-                // void* target2 = (char*)matriz_t->dados + (matriz_t->tamamhoTipo * (indiceLinha*2) + matriz_t->tamamhoTipo * indiceColuna);
-
-                // void* target = calcularOffset((char*)matriz->dados,matriz->tamamhoTipo, indiceColuna, indiceLinha);
-                // void* target2 = calcularOffset((char*)matriz_t->dados,matriz_t->tamamhoTipo, indiceLinha, indiceColuna);
-
-                // memcpy(target2, (const void*)target, sizeof(int));
-
                 setElementoMatriz(matriz_t, indiceLinha, indiceColuna, calcularOffset((char*)matriz->dados,matriz->tamamhoTipo, indiceColuna, indiceLinha));
             }
         }
@@ -164,11 +164,13 @@ void mostrarMatriz(Matriz* matriz)
 void desalocarMatriz(Matriz* matriz)
 {   
     void* target = 0;
-    // for (int indice = 0; indice < (matriz->linha * matriz->coluna); indice++)
+    
+    // for (int indice = 0; indice < matriz->linha; indice++)
     // {
-    //     target = calcularOffset((char*)matriz->dados,matriz->tamamhoTipo,0,indice);
+    //     target = calcularOffset((char*)matriz->dados,sizeof(int*),0,(matriz->coluna* indice));
     //     free(target);
     // }
+
     free(matriz->dados);
     free(matriz);
 }

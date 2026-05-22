@@ -15,7 +15,7 @@ typedef struct Matriz
     unsigned int tamamhoTipo;
     enum tiposMatriz tipo;
     const char* format;
-    void** dados;
+    void* dados;
 } Matriz;
 
 int matrizZero(Matriz* matriz);

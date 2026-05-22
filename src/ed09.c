@@ -1,3 +1,6 @@
+#include<stdio.h>
+
+
 void metodo_011()
 {
     printf("Metodo 01\n");
