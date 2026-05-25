@@ -4,5 +4,6 @@ build/
 dados.txt
 spookie-layer/
 test.c
+*.o
 
 # gcc .\src\ed10.c .\src\arranjo\* .\src\file\* .\src\matriz\* .\src\utils\* -I.\include\ -o out

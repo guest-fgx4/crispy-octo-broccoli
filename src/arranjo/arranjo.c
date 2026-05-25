@@ -16,7 +16,7 @@ Arranjo* criarArranjo(int tamanho, enum tipoArranjo tipo)
         
         switch(tipo)
         {
-            case INTEIRO:
+            case aINTEIRO:
                 novoArranjo->tipo = tipo;
                 novoArranjo->array = malloc(tamanho * S_INT);
                 if (novoArranjo->array != NULL)
@@ -48,7 +48,7 @@ void preencherArranjoAleatorio(Arranjo* arranjo, int limiteInf, int limiteSup)
     {
        switch (arranjo->tipo)
        {
-           case INTEIRO:
+           case aINTEIRO:
                int* array = (int*) arranjo->array;
                for(int indice = 0; indice < arranjo->tamanho; indice++)
                {

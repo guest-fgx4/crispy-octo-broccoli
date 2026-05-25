@@ -8,6 +8,16 @@ enum tiposMatriz
     mDOUBLE
 };
 
+typedef enum _padraoPrint
+{
+    DIAGONAL_PRINCIPAL,
+    DIAGONAL_SECUNDARIA,
+    TRIANGULO_INFERIOR_PRINCIPAL,
+    TRIANGULO_SUPERIOR_PRINCIPAL,
+    TRIANGULO_INFERIOR_SECUNDARIA,
+    TRIANGULO_SUPERIOR_SECUNDARIA,
+} PadraoPrint;
+
 typedef struct Matriz
 {
     int linha;
@@ -21,8 +31,11 @@ typedef struct Matriz
 int matrizZero(Matriz* matriz);
 int compararMatriz(Matriz* matriz1, Matriz* matriz2);
 int somarConstanteMatriz(Matriz* matriz1, int constante, Matriz* matriz2);
+int matrizZeroFuncao(Matriz* matriz, PadraoPrint padrao);
 void mostrarMatriz(Matriz* matriz);
+void mostrarMatrizFuncao(Matriz* matriz, PadraoPrint padrao);
 void desalocarMatriz(Matriz* matriz);
+void* lerMatirzTeclado(int linha, int coluna, enum tiposMatriz tipo);
 void* criarMatriz(int linha, int coluna, enum tiposMatriz tipo);
 void* transporMatriz(Matriz* matriz);
 void* produtoMatriz(Matriz* matriz1, Matriz* matriz2);

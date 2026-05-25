@@ -1,4 +1,5 @@
 #include<string.h>
+#include<stdio.h>
 
 #include<AEDI/matriz.h>
 
@@ -14,6 +15,7 @@ int compararElementoPosicao(Matriz* matri1, Matriz* matri2, int offset)
     return memcmp(offset1, offset2, matri1->tamamhoTipo);
 }
 
+// FIXME: funcao com segfault
 int comprarElemento(Matriz* matriz, const void* elemt, int offset)
 {
     void* target = calcularOffset((char*)matriz->dados,matriz->tamamhoTipo,0,offset);

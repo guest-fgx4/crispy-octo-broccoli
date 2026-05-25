@@ -24,5 +24,6 @@
 int randIntIntervalo(int limiteInf, int limiteSup);
 int lerIntTeclado(const char* string);
 char* lerLinhaTeclado(const char* string);
+char* concatString(char* string1, char* string2);
 
 #endif

@@ -23,9 +23,9 @@
 //} ArranjoInt;
 
 enum tipoArranjo {
-    INTEIRO             = 0,
-    DUPLA_PRECISAO,
-    CARACTERE
+    aINTEIRO             = 0,
+    aDOUBLE,
+    ACARACTERE
 };
 
 typedef struct Arranjo{

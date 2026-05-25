@@ -56,6 +56,46 @@ void fecharDesalocar(Arquivo* arquivo)
     free(arquivo);
 }
 
+void gravarMatrizArquivo(Matriz* matriz, const char* nomeArquivo)
+{
+    if (matriz == NULL || matriz->dados == NULL)
+    {
+        ERROR_LINHA("Matriz Invalida");
+        return;
+    }
+    
+    Arquivo* arquivo = abrirArquivo(nomeArquivo, ESCREVER);
+
+    fprintf(arquivo->arquivo, "%d\n", matriz->tipo);
+    fprintf(arquivo->arquivo, "%d\n", matriz->linha);
+    fprintf(arquivo->arquivo, "%d\n", matriz->coluna);
+
+    for (int indiceLinha = 0; indiceLinha < matriz->linha; indiceLinha++)
+    {
+        for (int indiceColuna = 0; indiceColuna < matriz->coluna; indiceColuna++)
+        {
+            void* target = (char*)matriz->dados + (matriz->tamamhoTipo * (indiceLinha*2) + matriz->tamamhoTipo * indiceColuna);
+            
+            switch (matriz->tipo)
+            {
+            case mINTEIRO:
+                fprintf(arquivo->arquivo,"%d\n", *((int*)target));
+                break;
+
+            case mDOUBLE:
+                fprintf(arquivo->arquivo, "%lf\n", *((double*)target));
+                break;
+
+            default:
+                break;
+            }
+        }
+        printf("\n");
+    } 
+
+    fclose(arquivo->arquivo);
+    free(arquivo);
+}
 
 void gravarArranjoArquivo(Arranjo* arranjo, const char* nomeArquivo)
 {
@@ -72,7 +112,7 @@ void gravarArranjoArquivo(Arranjo* arranjo, const char* nomeArquivo)
 
     switch (arranjo->tipo)
     {
-        case INTEIRO:
+        case aINTEIRO:
             int* array = (int*) arranjo->array;
             for(int indice = 0; indice < arranjo->tamanho; indice++)
             {
@@ -95,7 +135,7 @@ Arranjo* buscarArranjoArquivo(const char* nomeArquivo)
 
     fscanf(arquivo->arquivo, "%d", &tamanho);
 
-    arranjo = criarArranjo(tamanho, INTEIRO);
+    arranjo = criarArranjo(tamanho, aINTEIRO);
 
     if (arranjo == NULL)
     {
@@ -107,7 +147,7 @@ Arranjo* buscarArranjoArquivo(const char* nomeArquivo)
 
     switch (arranjo->tipo)
     {
-        case INTEIRO:
+        case aINTEIRO:
             int* array = (int*) arranjo->array;
             for(int indice = 0; indice < arranjo->tamanho; indice++)
             {
@@ -123,16 +163,18 @@ void* buscarMatrizArquivo(const char* nomeArquivo)
 {
     int linha = 0;
     int coluna = 0;
+    int format;
     void* numero = 0;
     Matriz* matriz = NULL;
 
     Arquivo* arquivo = abrirArquivo(nomeArquivo, LER);
     if(arquivo != NULL)
     {
+        fscanf(arquivo->arquivo, "%d", &format);
         fscanf(arquivo->arquivo, "%d", &linha);
         fscanf(arquivo->arquivo, "%d", &coluna);
 
-        matriz = (Matriz*) criarMatriz(linha, coluna, mINTEIRO);
+        matriz = (Matriz*) criarMatriz(linha, coluna, format);
 
         if (matriz != NULL)
         {
@@ -143,7 +185,7 @@ void* buscarMatrizArquivo(const char* nomeArquivo)
                 {
                     // fscanf(arquivo->arquivo, "%d", &matriz->dados[indiceLinha][indiceColuna]);
                     void* target = (char*)matriz->dados + (indiceLinha*2 * matriz->tamamhoTipo + indiceColuna * matriz->tamamhoTipo);
-                    fscanf(arquivo->arquivo, "%d", &numero);
+                    fscanf(arquivo->arquivo, matriz->format, &numero);
 
                     memcpy(target, (const void*)&numero, matriz->tamamhoTipo);
                 }

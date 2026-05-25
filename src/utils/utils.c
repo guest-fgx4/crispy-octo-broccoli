@@ -1,6 +1,7 @@
 #include<AEDI/utils.h>
 #include<stdlib.h>
 #include<stdio.h>
+#include<string.h>
 
 int lerIntTeclado(const char* string)
 {
@@ -14,13 +15,23 @@ int lerIntTeclado(const char* string)
 
 char* lerLinhaTeclado(const char* string)
 {
-    char* linha = "";
+    char* linha;
 
     printf("%s\n",string);
     fgets(linha, 80, stdin);
 
     return linha;
 }
+
+// void* lerDadoTeclado()
+// {
+//     void* dado = 0;
+
+//     printf("%s\n",string);
+//     scanf("%d", &valor); getchar();
+
+//     return linha;
+// }
 
 int randIntIntervalo(int limiteInf, int limiteSup)
 {
@@ -42,4 +53,9 @@ int randIntIntervalo(int limiteInf, int limiteSup)
     }
 
     return resposta;
+}
+
+char* concatString(char* string1, char* string2)
+{   
+    return strncat(string1, string2, strlen(string2));
 }

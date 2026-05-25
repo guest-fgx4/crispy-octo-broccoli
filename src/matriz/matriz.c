@@ -1,4 +1,5 @@
 #include<stdlib.h>
+#include<string.h>
 // #include<stdio.h>
 
 #include<AEDI/matriz.h>
@@ -96,6 +97,37 @@ void* criarMatriz(int linha, int coluna, enum tiposMatriz tipo)
     return matriz;
 }
 
+void* lerMatirzTeclado(int linha, int coluna, enum tiposMatriz tipo)
+{
+    void* dado = 0;
+
+    Matriz* matriz = criarMatriz(linha, coluna,tipo);
+
+
+    if (matriz != NULL && matriz->dados != NULL)
+    {
+        for (int indiceLinha = 0; indiceLinha < matriz->linha; indiceLinha++)
+        {
+            for (int indiceColuna = 0; indiceColuna < matriz->coluna; indiceColuna++)
+            {
+                // fscanf(arquivo->arquivo, "%d", &matriz->dados[indiceLinha][indiceColuna]);
+                // void* target = (char*)matriz->dados + (indiceLinha*2 * matriz->tamamhoTipo + indiceColuna * matriz->tamamhoTipo);
+                void* target = calcularOffset((char*)matriz->dados,matriz->tamamhoTipo, indiceLinha, indiceColuna);
+                
+
+                printf("Entrar com o valor para a matriz: ");
+                scanf(matriz->format, &dado); getchar();
+
+                memcpy(target, (const void*)&dado, matriz->tamamhoTipo);
+            }
+            
+        }
+    }
+    return matriz;
+}
+
+
+
 void* transporMatriz(Matriz* matriz)
 {
     if (matriz == NULL || matriz->linha < 0 || matriz->coluna < 0 || matriz->dados == NULL)
@@ -149,19 +181,165 @@ int matrizZero(Matriz* matriz)
 
 void mostrarMatriz(Matriz* matriz)
 {
-    if (matriz != NULL)
+    if (matriz != NULL && matriz->dados != NULL);
     {
         for (int indiceLinha = 0; indiceLinha < matriz->linha; indiceLinha++)
         {
             for (int indiceColuna = 0; indiceColuna < matriz->coluna; indiceColuna++)
             {
+                // printf("Valor = %d\n", (2*indiceColuna+indiceLinha));
                 // void* target = (char*)matriz->dados + (matriz->tamamhoTipo * (indiceLinha*2) + matriz->tamamhoTipo * indiceColuna);
                 void* target = calcularOffset((char*)matriz->dados, matriz->tamamhoTipo, indiceLinha, indiceColuna);
-                printf("%d ", *((int*)target));
+                
+                switch (matriz->tipo)
+                {
+                case mINTEIRO:
+                    printf("%d\t", *((int*)target));
+                    break;
+
+                case mDOUBLE:
+                    printf("%lf\t", *((double*)target));
+                    break;
+
+                default:
+                    ERROR_LINHA("Tipo de matriz nao achado");
+                    break;
+                }
             }
             printf("\n");
         }
     }
+}
+
+int escolherPadrao (int linha, int coluna, int tamanho, PadraoPrint padrao)
+{
+    int respota = 0;
+    
+    switch (padrao)
+    {
+    case  DIAGONAL_PRINCIPAL:
+        if (linha == coluna)
+        {
+            respota = 1;
+        }
+
+        break;
+    case  DIAGONAL_SECUNDARIA:
+        if (linha == (tamanho - coluna - 1))
+        {
+            respota = 1;
+        }
+        
+        break;
+    case  TRIANGULO_INFERIOR_PRINCIPAL:
+        if (linha > coluna)
+        {
+            respota = 1;
+        }
+
+        break;
+    case  TRIANGULO_SUPERIOR_PRINCIPAL:
+        if (linha < coluna)
+        {
+            respota = 1;
+        }
+        break;
+    case  TRIANGULO_INFERIOR_SECUNDARIA:    
+        if (linha > (tamanho - coluna - 1))
+        {
+            respota = 1;
+        }
+    
+        break;
+    case  TRIANGULO_SUPERIOR_SECUNDARIA:
+        if (linha <(tamanho - coluna - 1))
+        {
+            respota = 1;
+        }
+        break;
+        
+    default:
+        break;
+    }
+
+    return respota;
+}
+
+void mostrarMatrizFuncao(Matriz* matriz, PadraoPrint padrao)
+{
+    if (matriz != NULL && matriz->dados != NULL && matriz->coluna == matriz->linha);
+    {
+        for (int indiceLinha = 0; indiceLinha < matriz->linha; indiceLinha++)
+        {
+            for (int indiceColuna = 0; indiceColuna < matriz->coluna; indiceColuna++)
+            {
+                if (escolherPadrao(indiceLinha, indiceColuna, matriz->coluna, padrao))
+                {
+                    // void* target = (char*)matriz->dados + (matriz->tamamhoTipo * (indiceLinha*2) + matriz->tamamhoTipo * indiceColuna);
+                    void* target = calcularOffset((char*)matriz->dados, matriz->tamamhoTipo, indiceLinha, indiceColuna);
+                    
+                    switch (matriz->tipo)
+                    {
+                    case mINTEIRO:
+                        printf("%d\t", *((int*)target));
+                        break;
+
+                    case mDOUBLE:
+                        printf("%.4lf\t", *((double*)target));
+                        break;
+
+                    default:
+                        break;
+                    }
+                }
+                else
+                {
+                    printf("X \t");
+                }
+            }
+            printf("\n");
+        }
+    }
+}
+
+int matrizZeroFuncao(Matriz* matriz, PadraoPrint padrao)
+{
+    if (
+        matriz == NULL
+        || matriz->linha < 0
+        || matriz->coluna < 0
+        || matriz->dados == NULL
+        || matriz->linha != matriz->coluna
+    )
+    {
+        ERROR_LINHA("Matriz invalida");
+        return 0;
+    }
+
+    int tamanho = matriz->tamamhoTipo;
+    const void* zero;
+    int resposta = 1;
+
+    for (int indiceLinha = 0; indiceLinha < matriz->linha; indiceLinha++)
+    {
+        for (int indiceColuna = 0; indiceColuna < matriz->coluna; indiceColuna++)
+        {
+            if (escolherPadrao(indiceLinha, indiceColuna, matriz->coluna, padrao))
+            {
+                // printf("Chegou aqui");
+                // if (comprarElemento(matriz, NULL, ((indiceLinha*2) * tamanho + indiceColuna * tamanho)))
+
+                if (*((double*)calcularOffset((char*)matriz->dados, tamanho, indiceLinha, indiceColuna)) != 0.0)
+                {
+                    resposta = 0;
+                    indiceColuna = matriz->coluna;
+                    indiceLinha = matriz->linha;
+                }
+            }
+        }
+    }
+    
+    return resposta;
 }
 
 void desalocarMatriz(Matriz* matriz)
