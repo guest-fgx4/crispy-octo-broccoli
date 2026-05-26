@@ -1,4 +1,8 @@
-extern "C"
+#include<AEDI/utils.h>
+
+//extern "C" int sum(int x, int y);
+
+int sum(int x, int y, int z)
 {
-    #include<AEDI/utils.h>
+    return x+y+z;
 }

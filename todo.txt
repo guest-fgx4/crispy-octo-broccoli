@@ -1,0 +1,2 @@
+- update makefile so it compiles multiples obj instead of one:w
+- understand what extern "c" even does
