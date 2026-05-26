@@ -20,7 +20,7 @@ void metodo_011()
 
 
 
-    Arranjo* arranjo = criarArranjo(quantidade, INTEIRO);
+    Arranjo* arranjo = criarArranjo(quantidade, aINTEIRO);
     preencherArranjoAleatorio(arranjo, limiteInf, limiteSup);
 
     Arquivo* arquivo = abrirArquivo("dados.txt", ESCREVER);
