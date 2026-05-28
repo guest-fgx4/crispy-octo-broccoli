@@ -6,7 +6,7 @@
 #include<AEDI/matriz.h>
 #include<AEDI/utils.h>
 
-char* buscarOperacao(enum operacoes_arquivo tipoOperacao)
+char* buscarOperacao(OpArquivo tipoOperacao)
 {
     switch(tipoOperacao)
     {
@@ -25,7 +25,7 @@ char* buscarOperacao(enum operacoes_arquivo tipoOperacao)
 }
 
 
-Arquivo* abrirArquivo(const char* nomeArquivo, enum operacoes_arquivo tipoOperacao) 
+Arquivo* abrirArquivo(const char* nomeArquivo, OpArquivo tipoOperacao) 
 {
     Arquivo* novoArquivo = NULL;
 

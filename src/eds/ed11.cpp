@@ -1,5 +1,7 @@
 #include <iostream>
-#include<AEDI/arranjo.hpp>
+#include <AEDI/arranjo.hpp>
+#include <AEDI/utils.hpp>
+#include <AEDI/file.hpp>
 
 void metodo_011()
 {
@@ -15,14 +17,21 @@ void metodo_011()
 
 
 
-    Arranjo* arranjo = criarArranjo(quantidade, aINTEIRO);
-    preencherArranjoAleatorio(arranjo, limiteInf, limiteSup);
+    // Arranjo* arranjo = criarArranjo(quantidade, aINTEIRO);
+    // preencherArranjoAleatorio(arranjo, limiteInf, limiteSup);
 
-    Arquivo* arquivo = abrirArquivo("dados.txt", ESCREVER);
-    gravarArranjoArquivo(arranjo, "dados.txt");
+    // Arquivo* arquivo = abrirArquivo("dados.txt", ESCREVER);
+    // gravarArranjoArquivo(arranjo, "dados.txt");
 
-    fecharDesalocar(arquivo);
-    free(arranjo);
+    ArranjoClasse<int> arranjo (quantidade, 0);
+    arranjo.preenpreencherArranjoAleatorio(limiteInf, limiteSup);
+
+    
+
+    // ArquivoClass<decltype(arranjo)::value> arquivo("dados.txt",,ESCREVER);
+
+    // fecharDesalocar(arquivo);
+    arranjo.free();
 }
 
 void metodo_012()

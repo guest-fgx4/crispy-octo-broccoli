@@ -1,13 +1,20 @@
-extern "C"
-{
-    #include<AEDI/arranjo.h>
-}
+#include <AEDI/arranjo.h>
 
-class Arranjo
+#pragma once
+
+template <typename T>
+class ArranjoClasse
 {
 private:
-    /* data */
-public:
-    Arranjo(/* args */);
-};
+    T opitional;
+    int tamamho;
+    T *dados;
 
+public:
+    ArranjoClasse(int n, T initial);
+    void free();
+    void set(int posicao, T valor);
+    T get(int posicao);
+    void print();
+    void preenpreencherArranjoAleatorio(int limiteInf, int limiteSup);
+};
