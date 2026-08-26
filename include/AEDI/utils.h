@@ -21,9 +21,20 @@
 #define ERROR_LINHA(string) \
     printf("Error: %s:%d - %s\n",__FILE__, __LINE__, string )
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int randIntIntervalo(int limiteInf, int limiteSup);
 int lerIntTeclado(const char* string);
 char* lerLinhaTeclado(const char* string);
 char* concatString(char* string1, char* string2);
+// extern "C" int sum(int x, int y);
+int sum(int x, int y);
+
+#ifdef __cplusplus
+}
+#endif
+
 
 #endif

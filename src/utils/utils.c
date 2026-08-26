@@ -1,8 +1,8 @@
-#include<AEDI/utils.h>
 #include<stdlib.h>
 #include<stdio.h>
 #include<string.h>
 
+#include<AEDI/utils.h>
 int lerIntTeclado(const char* string)
 {
     int valor = 0;
@@ -58,4 +58,10 @@ int randIntIntervalo(int limiteInf, int limiteSup)
 char* concatString(char* string1, char* string2)
 {   
     return strncat(string1, string2, strlen(string2));
+}
+
+//extern "C" int sum(int x, int y)
+int sum(int x, int y)
+{
+    return x + y;
 }

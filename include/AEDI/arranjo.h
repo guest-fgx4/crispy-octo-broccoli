@@ -34,11 +34,19 @@ typedef struct Arranjo{
     void *array;
 } Arranjo;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 Arranjo* criarArranjo(int tamanho, enum tipoArranjo tipo);
 void preencherArranjoAleatorio(Arranjo* arranjo, int limiteInf, int limiteSup);
 int buscarIntArranjo(Arranjo* arranjo, int valor);
 int comprarArranjos(Arranjo* arranjo1, Arranjo* arranjo2);
 int somarArranjo(Arranjo* arranjo1, int constante, Arranjo* arranjo2);
 int estaDecrescente(Arranjo* arranjo);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
