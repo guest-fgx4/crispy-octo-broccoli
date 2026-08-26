@@ -1,7 +1,6 @@
 #include <iostream>
-#include <AEDI/arranjo.hpp>
-#include <AEDI/utils.hpp>
-#include <AEDI/file.hpp>
+#include "ed11Arranjo.hpp"
+#include "ed11Arquivo.hpp"
 
 void metodo_011()
 {
@@ -11,72 +10,148 @@ void metodo_011()
     int limiteSup = 0;
     int quantidade = 0;
 
-    limiteInf = lerIntTeclado("Inserir o limite Inferior: ");
-    limiteSup = lerIntTeclado("Inserir o limite Supeior: ");
-    quantidade = lerIntTeclado("Inserir a quantidade: ");
+    std::cout << "Inserir quantidade elementos:" << std::endl;
+    std::cin >> quantidade;
 
+    std::cout << "Inserir limite inferior:" << std::endl;
+    std::cin >> limiteInf;
 
+    std::cout << "Inserir limite superior:" << std::endl;
+    std::cin >> limiteSup;
 
-    // Arranjo* arranjo = criarArranjo(quantidade, aINTEIRO);
-    // preencherArranjoAleatorio(arranjo, limiteInf, limiteSup);
-
-    // Arquivo* arquivo = abrirArquivo("dados.txt", ESCREVER);
-    // gravarArranjoArquivo(arranjo, "dados.txt");
-
-    ArranjoClasse<int> arranjo (quantidade, 0);
+    ArranjoClasse<int> arranjo(quantidade, 0);
     arranjo.preenpreencherArranjoAleatorio(limiteInf, limiteSup);
 
-    
+    ArquivoClass<int> arquivo("ED11_DADOS.TXT", 0);
+    arquivo.gravarArranjoArquivo(arranjo);
 
-    // ArquivoClass<decltype(arranjo)::value> arquivo("dados.txt",,ESCREVER);
-
-    // fecharDesalocar(arquivo);
-    arranjo.free();
 }
 
 void metodo_012()
 {
     std::cout << "Metodo 02" << std::endl;
+
+    ArquivoClass<int> arquivo ("ED11_DADOS.TXT", 0);
+    auto arranjo = arquivo.lerArranjoArquivo();
+
+    arranjo.searchFirstOdd();
 }
 
 void metodo_013()
 {
     std::cout << "Metodo 03" << std::endl;
+
+    ArquivoClass<int> arquivo ("ED11_DADOS.TXT", 0);
+    auto arranjo = arquivo.lerArranjoArquivo();
+
+    arranjo.searchFirstEvenx3();
 }
 
 void metodo_014()
 {
     std::cout << "Metodo 04" << std::endl;
+    
+    ArquivoClass<int> arquivo ("ED11_DADOS.TXT", 0);
+    auto arranjo = arquivo.lerArranjoArquivo();
+
+    int soma = arranjo.addInterval(2, 4);
+
+    std::cout << "Valor total da soma: " << soma << std::endl;
 }
 
 void metodo_015()
 {
     std::cout << "Metodo 05" << std::endl;
+
+    ArquivoClass<int> arquivo ("ED11_DADOS.TXT", 0);
+    auto arranjo = arquivo.lerArranjoArquivo();
+
+    int media = arranjo.mediaMovel(2,4);
+
+    std::cout << "Valor total da soma: " << media << std::endl;
 }
 
 void metodo_016()
 {
     std::cout << "Metodo 06" << std::endl;
+
+    ArquivoClass<int> arquivo ("ED11_DADOS.TXT", 0);
+    auto arranjo = arquivo.lerArranjoArquivo();
+
+    if (arranjo.positives())
+    {
+        std::cout << "Valores abaixo de 100 e positivos" << std::endl;
+    }
+    else
+    {
+        std::cout << "Valores nao abaixo de 100 e positivos" << std::endl;
+    }
 }
 
 void metodo_017()
 {
     std::cout << "Metodo 07" << std::endl;
+    
+    ArquivoClass<int> arquivo ("ED11_DADOS.TXT", 0);
+    auto arranjo = arquivo.lerArranjoArquivo();
+
+    if (arranjo.deCrescente())
+    {
+        std::cout << "Arranjo decrescente" << std::endl;
+    }
+    else
+    {
+        std::cout << "Arranjo nao decrescente" << std::endl;
+    }
 }
 
 void metodo_018()
 {
     std::cout << "Metodo 08" << std::endl;
+
+    ArquivoClass<int> arquivo ("ED11_DADOS.TXT", 0);
+    auto arranjo = arquivo.lerArranjoArquivo();
+
+    if (arranjo.procurarInter(2,4,6))
+    {
+        std::cout << "Valor no intervalo" << std::endl;
+    }
+    else
+    {
+        std::cout << "Valor nao no intervalo" << std::endl;
+    }
 }
 
 void metodo_019()
 {
     std::cout << "Metodo 09" << std::endl;
+
+    ArquivoClass<int> arquivo ("ED11_DADOS.TXT", 0);
+    auto arranjo = arquivo.lerArranjoArquivo();
+
+    auto arranjo2 = arranjo.escalar(2,4,10);
+
+    std::cout << "Primeiro Arranjo: " << std::endl;
+    arranjo.print();
+
+    std::cout << "Segundo Arranjo Escalar: " << std::endl;
+    arranjo2.print();
 }
 
 void metodo_020()
 {
     std::cout << "Metodo 10" << std::endl;
+
+    ArquivoClass<int> arquivo ("ED11_DADOS.TXT", 0);
+    auto arranjo = arquivo.lerArranjoArquivo();
+
+    std::cout << "Arranjo sem sort: " << std::endl;
+    arranjo.print();
+
+    arranjo.sortDecresce();
+    std::cout << "Arranjo com sort: " << std::endl;
+    arranjo.print();
+
 }
 
 int main(void)
