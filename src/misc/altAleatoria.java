@@ -1,22 +1,25 @@
 import java.io.*;
+import java.util.Scanner;
 import java.util.Random;
 
 
 public class altAleatoria
 {
-    public static String readLine()
-    {
-        String line = "";
+    //public static String readLine()
+    //{
+    //    String line = "";
 
-        try
-        {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            line = br.readLine();
-        } catch (Exception e) {}
+    //    try
+    //    {
+    //        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    //        line = br.readLine();
+    //    } catch (Exception e) {}
 
-        return line;
-    }
+    //    return line;
+    //}
 
+		
+	private static Random gen = new Random();
     public static void main(String[] args)
     {
         Boolean loop = true;
@@ -24,20 +27,21 @@ public class altAleatoria
         String resp = "";
         char letraA = ' ';
         char letraB = ' ';
+		Scanner sc = new Scanner(System.in);
 
-        Random gen = new Random();
         gen.setSeed(4);
 
         do {
 
-            stringLine = readLine();
+            stringLine = sc.nextLine();
 
             if (stringLine != "")
             {
-                if (stringLine.charAt(0) == 'F' &&
-                        stringLine.charAt(1) == 'I' &&
-                        stringLine.charAt(2) == 'M')
-                {
+					if (stringLine.length() == 3 && 
+									stringLine.charAt(0) == 'F' &&
+									stringLine.charAt(1) == 'I' &&
+									stringLine.charAt(2) == 'M')
+					{
                     loop = false;
                 }
                 else

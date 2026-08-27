@@ -1,20 +1,8 @@
-import java.io.*;
+import java.util.Scanner;
 
 
 public class cifraCesar 
 {
-    public static String readLine()
-    {
-        String line = "";
-
-        try
-        {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            line = br.readLine();
-        } catch (Exception e) {}
-
-        return line;
-    }
 
     public static void main(String[] args)
     {
@@ -22,17 +10,19 @@ public class cifraCesar
         Boolean loop = true;
         String stringLine = "";
         String cifraString = "";
+		Scanner sc = new Scanner(System.in);
 
         do {
 
-            stringLine = readLine();
+            stringLine = sc.nextLine();
 
             if (stringLine != "")
             {
-                if (stringLine.charAt(0) == 'F' &&
-                        stringLine.charAt(1) == 'I' &&
-                        stringLine.charAt(2) == 'M')
-                {
+		    if (stringLine.length() == 3 &&
+				    stringLine.charAt(0) == 'F' &&
+				    stringLine.charAt(1) == 'I' &&
+				    stringLine.charAt(2) == 'M')
+		    {
                     loop = false;
                 }
                 else

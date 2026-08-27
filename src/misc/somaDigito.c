@@ -10,7 +10,7 @@ int main()
     {
         scanf("%ld", &numero);
         
-        if (numero < 0)
+        if (numero <= 0)
         {
             endedloop = 1;
         }
