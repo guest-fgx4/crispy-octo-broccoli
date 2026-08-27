@@ -1,7 +1,8 @@
 import java.io.*;
+import java.util.Random;
 
 
-public class cifraCesar 
+public class altAleatoria
 {
     public static String readLine()
     {
@@ -18,10 +19,14 @@ public class cifraCesar
 
     public static void main(String[] args)
     {
-        final int offset = 3;
         Boolean loop = true;
         String stringLine = "";
-        String cifraString = "";
+        String resp = "";
+        char letraA = ' ';
+        char letraB = ' ';
+
+        Random gen = new Random();
+        gen.setSeed(4);
 
         do {
 
@@ -37,17 +42,28 @@ public class cifraCesar
                 }
                 else
                 {
+                    letraA = (char)('a' + (Math.abs(gen.nextInt()) % 26));
+                    letraB = (char)('a' + (Math.abs(gen.nextInt()) % 26));
+
                     for(int i = 0; i < stringLine.length(); i++)
                     {
-                        cifraString = cifraString + (char)(stringLine.charAt(i) + offset);
+                        if (stringLine.charAt(i) == letraA)
+                        {
+                            resp = resp + letraB;
+                        }
+                        else
+                        {
+                            resp = resp + stringLine.charAt(i);
+                        }
                     }
 
 
-                    System.out.println(cifraString);
-                    cifraString = "";
-                }
+                    System.out.println(resp);
+                    resp = "";
 
+                }
             }
+
         } while(loop);
     }
 }
