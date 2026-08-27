@@ -11,7 +11,7 @@ int main()
     {
         fgets(inversao, tamMax, stdin);
         
-        if (inversao[0] == 'F' && inversao[1] == 'I' && inversao[2] == 'M' && inversao[3] == '\n')
+        if (inversao[0] == 'F' && inversao[1] == 'I' && inversao[2] == 'M' && ( inversao[3] == '\n'|| inversao[3] == '\0'))
         {
             endedloop = 1;
         }
