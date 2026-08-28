@@ -1,7 +1,7 @@
 #include<stdio.h>
 
 
-int isVogal(char letra,const char* vogais, int index)
+int isVogal(char letra, const char* vogais, int index)
 {
     int resp = 1;
     if (resp && index < 10)
@@ -20,22 +20,26 @@ int isVogal(char letra,const char* vogais, int index)
     return resp;
 }
 
+int Vogal(char* string, int index, int tamMax, const char* vogais)
+{
+    int resp = 1;
+
+    if (string[index] != '\n' && (isVogal(string[index], vogais, 0)))
+    {
+        resp = resp && Vogal(string, index + 1, tamMax, vogais);
+    }
+    else
+    {
+        if (!(string[index] == '\n'))
+        {
+            resp = 0;
+        }
+    }
+
+    return resp;
+}
 
 
-//public static Boolean vogal(String string)
-//{
-//    Boolean resp = true;
-//
-//    int index = 0;
-//    while(resp && index < string.length())
-//    {
-//        resp = resp && (isVogal(string.charAt(index)));
-//        index++;
-//    }
-//
-//    return resp;
-//}
-//
 //public static Boolean nonVogal(String string)
 //{
 //    Boolean resp = true;
@@ -109,10 +113,7 @@ int main()
         }
         else
         {
-            printf("%d\n", isVogal('a', vogais, 0));
-            printf("%d\n", isVogal('b', vogais, 0));
-            printf("%d\n", isVogal('c', vogais, 0));
-            printf("%d\n", isVogal('i', vogais, 0));
+            printf("%d\n", Vogal(array, 0, tamMax, vogais));
         }
     }
 

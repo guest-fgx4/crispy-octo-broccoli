@@ -25,17 +25,26 @@ public class somaDigi
 
         do {
 
-            numero = sc.nextInt();
-            System.out.println(numero);
+            try {
+                numero = sc.nextInt();
 
-            if (numero < 0)
+            } catch (Exception e) { loop = false; numero = -1;}
+
+            // System.out.println((int)numero);
+
+            // if (numero < 0)
+            // {
+            //     numero *= -1;
+            // }
+
+            if (numero <= 0 ) 
             {
-                numero *= -1;
+                loop = false;
             }
-
-            if (numero == 0 ) loop = false;
-
-            System.out.println(somaDi(numero));
+            else
+            {
+                System.out.println(somaDi(numero));
+            }
             
         } while(loop);
     }
