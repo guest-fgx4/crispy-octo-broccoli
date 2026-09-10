@@ -11,7 +11,7 @@ int main()
     {
         fgets(palindromo, tamMax, stdin);
         
-        if (palindromo[0] == 'F' && palindromo[1] == 'I' && palindromo[2] == 'M' && palindromo[3] == '\n')
+        if (palindromo[0] == 'F' && palindromo[1] == 'I' && palindromo[2] == 'M' && ( palindromo[3] == '\n' || palindromo[3] == '\0'))
         {
             endedloop = 1;
         }
