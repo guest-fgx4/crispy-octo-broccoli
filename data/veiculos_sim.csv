@@ -1,0 +1,4 @@
+id,marca,modelo,ano,categoria,combustivel,cilindros,cilindrada,transmissao,tracao,consumo_cidade,consumo_estrada,co2,turbo,data_registro
+70384,Porsche,911 Carrera 4S Cabriolet,2021,Minicompact Cars,Gasoline,6,3.0,Manual,All-Wheel Drive,7.23,10.20,276.1,true,2020-11-09
+76313,Lexus,UX 250h AWD,2021,Compact Cars,Gasoline;Electricity,4,2.0,CVT,All-Wheel Drive,17.43,16.16,141.6,false,2020-12-01
+
