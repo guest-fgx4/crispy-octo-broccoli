@@ -157,14 +157,59 @@ class Veiculo
     }
 
 
-    public void parseVeiculo(String linha)
+    public boolean parseVeiculo(String linha)
     {
+        String[] dados;
+        boolean res = false;
 
+        if (linha == "" || linha == null) return res;
+
+        dados = linha.split(",");
+
+        for(int i = 0; i < dados.length; i++)
+        {
+            //System.out.println(dados[i]);
+        }
+
+        this.id = Integer.parseInt(dados[0]);
+        this.marca = dados[1];
+        this.modelo = dados[2];
+        this.ano = Integer.parseInt(dados[3]);
+        this.categoria = dados[4];
+        this.combustivel = dados[5].split(";");
+        this.cilindros = Integer.parseInt(dados[6]);
+        this.cilindradas = Double.parseDouble(dados[7]);
+        this.transmisao = dados[8];
+        this.tracao = dados[9];
+        this.consumoCidade = Double.parseDouble(dados[10]);
+        this.consumoEstrada = Double.parseDouble(dados[11]);
+        this.c02 = Double.parseDouble(dados[12]);
+        this.turbo = Boolean.parseBoolean(dados[13]);
+        
+        this.data = new Data(dados[14]);
+        
+
+        return res;
     }
 
-    @override
+    @Override
     public String toString()
     {
+        return "[ " +
+            id              +   " ## "+
+            marca           +   " ## "+
+            modelo          +   " ## "+
+            categoria       + " ## "+
+            cilindros       + " ## "+
+            cilindradas     +" ## "+
+            transmisao      +" ## "+
+            tracao          +" ## "+
+            consumoCidade   +" ## "+
+            consumoEstrada  +" ## "+
+            c02             +" ## "+
+            turbo           +" ## "+
+            data      +""+
+            " ]";
 
     }
 }
@@ -174,6 +219,24 @@ class Data
     private int ano = 0;
     private int mes = 0;
     private int dia = 0;
+
+    public Data(String linha)
+    {
+        
+        if (linha == "" || linha == null) 
+        {
+            ano = -1;
+            mes = -1;
+            dia = -1;
+        }
+        else
+        {
+            String[] data = linha.split("-");
+            ano = Integer.parseInt(data[0]);
+            mes = Integer.parseInt(data[1]);
+            dia = Integer.parseInt(data[2]);
+        }
+    }
 
     public int getAno() {
         return ano;
@@ -195,22 +258,103 @@ class Data
     public void setDia(int dia) {
         this.dia = dia;
     }
+
+    @Override
+    public String toString()
+    {
+        return "(" + ano + "/" + mes + "/" + dia + ")";
+    }
 }
 
 
+class Ordenar
+{
+
+    public void insercao(Veiculo[] dados)
+    {
+        if ( dados == null || dados.length == 0) return;
+
+        Veiculo atual = dados[0];
+
+        for (int i = 1; i < dados.length; i++)
+        {
+            atual = dados[i];
+            int j = i - 1;
+            while (j >= 0 && (dados[j].getMarca().compareTo(atual.getMarca()) > 0))
+            {
+                dados[j + 1] = dados[j];
+                j--;
+            }
+            dados[j+1] = atual;
+        }
+
+    }
+
+    public void insercao(int[] dados)
+    {
+
+        int atual = dados[0];
+
+        for (int i = 1; i < dados.length; i++)
+        {
+
+            atual = dados[i];
+            int j = i - 1;
+            while (j >= 0 && dados[j] > atual)
+            {
+                dados[j + 1] = dados[j];
+                j--;
+            }
+
+            dados[j+1] = atual;
+            
+        }
+
+        for (int i = 0; i < dados.length; i++)
+        {
+            System.out.println(dados[i]);
+        }
+    }
+
+    public void print(Veiculo[] dados)
+    {
+        for (int i = 0; i < dados.length; i++)
+        {
+            System.out.println(dados[i]);
+        }
+    }
+}
 
 public class Veiculos
 {
     public static String filePath = "./data/veiculos.csv";
     public static String filePathSimple = "./data/veiculos_sim.csv";
+    public static String filePathVerde = "/tmp/veiculos.csv";
 
     public static void main(String[] args)
     {
 
+        Veiculo[] dados = new Veiculo[500];
+
         LeitorCSV csv = new LeitorCSV();
         csv.openFile(filePath);
-        System.out.println(csv.readNextLine());
-        System.out.println(csv.readNextLine());
+        //System.out.println(csv.readNextLine());
+        csv.readNextLine();
+
+        int count = 0;
+        while (csv.fileScanner.hasNextLine())
+        {
+            Veiculo vrom = new Veiculo();
+            vrom.parseVeiculo(csv.readNextLine());
+            //System.out.println(vrom);
+            dados[count] = vrom;
+            count++;
+        }
+
+        Ordenar sort = new Ordenar();
+
+        sort.insercao(dados);
+        sort.print(dados);
 
     }
 }
