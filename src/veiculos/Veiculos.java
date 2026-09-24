@@ -458,6 +458,40 @@ class Ordenar
     }
 }
 
+class List
+{
+    final public int SIZE = 100;
+
+    enum OP_CODE {
+        II, IX, IF, RI, RX, RF
+    }
+
+    public void insertStart(Veiculo veiculo)
+    {
+    }
+
+    public void insert(Veiculo veiculo, int pos)
+    {
+    }
+
+    public void insertEnd(Veiculo veiculo)
+    {
+    }
+
+    //public Veiculo removeStart()
+    //{
+    //}
+
+    //public Veiculo remove(int pos)
+    //{
+    //}
+
+    //public Veiculo removeEnd()
+    //{
+    //}
+}
+
+
 public class Veiculos
 {
     public static String filePath = "./data/veiculos.csv";
