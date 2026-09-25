@@ -238,21 +238,60 @@ class Veiculo
     @Override
     public String toString()
     {
-        return "[ " +
+        String combustivelString = "[" + combustivel[0];
+        for(int i = 1; i < combustivel.length; i++)
+        {
+            combustivelString += "," + combustivel[i];
+        }
+
+        combustivelString += "]";
+        String consumoCidadeFormat = String.format("%.2f", consumoCidade);
+        String consumoEstradaFormat = String.format("%.2f", consumoEstrada);
+
+        String dateFormat = "";
+
+        String dateDay = data.getDia() + "";
+        
+        if (dateDay.length() < 2)
+        {
+            dateFormat += "0" + data.getDia();
+        }
+        else
+        {
+            dateFormat += data.getDia();
+        }
+
+        dateFormat += "/";
+        dateDay = data.getMes() + "";
+        if (dateDay.length() < 2)
+        {
+            dateFormat += "0" + data.getMes();
+        }
+        else
+        {
+            dateFormat += data.getMes();
+        }
+
+        dateFormat += "/";
+        dateFormat += data.getAno();
+
+        return "[" +
             id              +   " ## "+
             marca           +   " ## "+
             modelo          +   " ## "+
+            ano             +   " ## "+
             categoria       + " ## "+
+            combustivelString       + " ## "+
             cilindros       + " ## "+
             cilindradas     +" ## "+
             transmisao      +" ## "+
             tracao          +" ## "+
-            consumoCidade   +" ## "+
-            consumoEstrada  +" ## "+
+            consumoCidadeFormat   +" ## "+
+            consumoEstradaFormat  +" ## "+
             c02             +" ## "+
             turbo           +" ## "+
-            data      +""+
-            " ]";
+            dateFormat     +""+
+            "]";
 
     }
 }
@@ -305,7 +344,7 @@ class Data
     @Override
     public String toString()
     {
-        return "(" + ano + "/" + mes + "/" + dia + ")";
+        return "" + dia + "/" + mes + "/" + ano + "";
     }
 }
 
@@ -453,7 +492,10 @@ class Ordenar
     {
         for (int i = 0; i < dados.length; i++)
         {
-            System.out.println(dados[i]);
+            if (dados[i] != null)
+            {
+                System.out.println(dados[i]);
+            }
         }
     }
 }
@@ -494,9 +536,27 @@ class List
 
 public class Veiculos
 {
+    
     public static String filePath = "./data/veiculos.csv";
     public static String filePathSimple = "./data/veiculos_sim.csv";
     public static String filePathVerde = "/tmp/veiculos.csv";
+
+    public static Veiculo findCar(int id, Veiculo[] data)
+    {
+        Veiculo car = null;
+
+        int pos = 0;
+        for (int i = 0; i < data.length; i++)
+        {
+            if (data[i].getId() == id)
+            {
+                pos = i;
+                i = data.length;
+            }
+        }
+
+        return data[pos].clone();
+    }
 
     public static void main(String[] args)
     {
@@ -507,6 +567,7 @@ public class Veiculos
         csv.openFile(filePath);
         //System.out.println(csv.readNextLine());
         csv.readNextLine();
+        Ordenar sort = new Ordenar();
 
         int count = 0;
         while (csv.fileScanner.hasNextLine())
@@ -518,13 +579,29 @@ public class Veiculos
             count++;
         }
 
-        Ordenar sort = new Ordenar();
+       Scanner sc = new Scanner(System.in);
+
+       int id = sc.nextInt();
+
+       Veiculo[] set = new Veiculo[100];
+       int pos = 0;
+       while (id != -1)
+       {
+           set[pos] = findCar(id, dados);
+
+           if (set[pos] != null)
+           {
+               pos++;
+           }
+
+           id = sc.nextInt();
+       }
+
+       sort.print(set);
 
         //sort.insercao(dados);
         //sort.print(dados);
-
-
-        sort.bucketsort(dados);
-        sort.print(dados);
+        //sort.bucketsort(dados);
+        //sort.print(dados);
     }
 }
