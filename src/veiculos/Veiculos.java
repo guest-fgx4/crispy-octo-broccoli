@@ -359,14 +359,17 @@ class Ordenar
 
         for (int i = 1; i < dados.length; i++)
         {
-            atual = dados[i];
-            int j = i - 1;
-            while (j >= 0 && (dados[j].getMarca().compareTo(atual.getMarca()) > 0))
+            if (dados[i] != null)
             {
-                dados[j + 1] = dados[j];
-                j--;
+                atual = dados[i];
+                int j = i - 1;
+                while (j >= 0 && (dados[j].getMarca().compareTo(atual.getMarca()) > 0))
+                {
+                    dados[j + 1] = dados[j];
+                    j--;
+                }
+                dados[j+1] = atual;
             }
-            dados[j+1] = atual;
         }
 
     }
@@ -597,11 +600,14 @@ public class Veiculos
            id = sc.nextInt();
        }
 
+       // TP2-1
+       //sort.print(set);
+
+       // TP2-4
+       sort.insercao(set);
        sort.print(set);
 
-        //sort.insercao(dados);
-        //sort.print(dados);
-        //sort.bucketsort(dados);
-        //sort.print(dados);
+       //sort.bucketsort(dados);
+       //sort.print(dados);
     }
 }
