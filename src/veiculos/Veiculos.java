@@ -412,10 +412,13 @@ class Ordenar
 
         for (int i = 0; i < dados.length; i++)
         {
-            int position = ((int) Math.floor(dados[i].getCilindradas()));
-            baldes[position][baldes[position][0].getId()] = dados[i].clone();
-            baldes[position][0].incrementId();
-            //System.out.println(baldes[position][0].getId());
+           if (dados[i] != null)
+           {
+               int position = ((int) Math.floor(dados[i].getCilindradas()));
+               baldes[position][baldes[position][0].getId()] = dados[i].clone();
+               baldes[position][0].incrementId();
+               //System.out.println(baldes[position][0].getId());
+           }
         }
 
         // printBucket(baldes);        
@@ -604,10 +607,11 @@ public class Veiculos
        //sort.print(set);
 
        // TP2-4
-       sort.insercao(set);
-       sort.print(set);
+       //sort.insercao(set);
+       //sort.print(set);
 
-       //sort.bucketsort(dados);
-       //sort.print(dados);
+       // TP2-7
+       sort.bucketsort(set);
+       sort.print(set);
     }
 }
