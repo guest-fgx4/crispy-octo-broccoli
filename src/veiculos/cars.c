@@ -17,7 +17,7 @@ typedef struct Car
     char *modelo;
     int ano;
     char *categoria;
-    char **combustivel;
+    char *combustivel;
     int cilindros;
     double cilindrada;
     char *transmissao;
@@ -49,14 +49,19 @@ void printCar(Car *car)
     //     car->consumoCidade, car->consumoEstrada, car->co2, car->turbo
     // );
 
-    printf("[%d ## %s ## %s ## %d ## %s ## COMB ## %d ## %.2lf ## %s ## %s ## %.2lf. ## %.2lf ## %.2lf ## ",
-           car->id, car->marca, car->modelo, car->ano, car->categoria,
+    printf("[%d ## %s ## %s ## %d ## %s ##",
+           car->id, car->marca, car->modelo, car->ano, car->categoria);
+
+    // printf("COMB");
+    
+
+    printf(" ## %d ## %.2lf ## %s ## %s ## %.2lf. ## %.2lf ## %.2lf ## ",
            car->cilindros, car->cilindrada, car->transmissao, car->tracao,
            car->consumoCidade, car->consumoEstrada, car->co2);
 
     char *turbo = (car->turbo) ? "true" : "false";
 
-    printf("%s ## DATA]\n", turbo);
+    printf("%s ## %02d/%02d/%d]\n", turbo, car->date.dia, car->date.mes, car->date.ano);
 }
 
 int lengthToken(char *line)
@@ -136,6 +141,13 @@ Car *parseCar(char *line)
         // TODO: SOLVE COMB
         token = strtok(0, ",");
 
+#if (_DEBUG)
+        printf("Value of combustivel raw (token): %s\n", token);
+#endif
+
+        car->combustivel = (char *)malloc(sizeof(char) * lengthToken(token));
+        MyMemCpy(car->combustivel, token, lengthToken(token));
+
         token = strtok(0, ",");
         car->cilindros = atoi(token);
 
@@ -161,7 +173,7 @@ Car *parseCar(char *line)
 
 #if (_DEBUG)
         printf("Token: %s\nSizeof token: %d\n Length String = %d", token, sizeof(token), lengthToken(token));
-        printf("Value car transmissao = %d\n", car->transmissao);
+        printf("Value car transmissao = %s\n", car->transmissao);
 #endif
 
         token = strtok(0, ",");
@@ -173,7 +185,7 @@ Car *parseCar(char *line)
 
 #if (_DEBUG)
         printf("Token: %s\nSizeof token: %d\n Length String = %d", token, sizeof(token), lengthToken(token));
-        printf("Value car tracao = %d\n", car->tracao);
+        printf("Value car tracao = %s\n", car->tracao);
 #endif
 
         token = strtok(0, ",");
@@ -215,6 +227,18 @@ Car *parseCar(char *line)
 
         // TODO: SOLVE DATA
         token = strtok(0, ",");
+
+        token = strtok(token, "-");
+        printf("Year = %s\n", token);
+        car->date.ano = atoi(token);
+
+        token = strtok(0, "-");
+        printf("Month = %s\n", token);
+        car->date.mes = atoi(token);
+
+        token = strtok(0, "-");
+        printf("Day = %s\n", token);
+        car->date.dia = atoi(token);
     }
 
     return car;
