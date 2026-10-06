@@ -351,6 +351,83 @@ class Data
 
 class Ordenar
 {
+    
+    public void mergeSort(Veiculo[] dados, int size)
+    {
+        int left = 0;
+        int right = size - 1;
+
+        mergeSortInit(left, right, dados);
+    }
+
+    public void mergeSortInit(int left, int right, Veiculo[] dados)
+    {
+        if (left < right)
+        {
+            int pivot = (left + right)/2;
+            mergeSortInit(left,pivot, dados);
+            mergeSortInit(pivot + 1, right, dados);
+            intercalate(left, right, pivot, dados);
+        }
+    }
+
+    public void intercalate(int left, int right, int pivot, Veiculo[] dados)
+    {
+        int sizeLeft = (pivot + 1 - left);
+        int sizeRight = (right - pivot);
+
+        Veiculo[] arrayLeft = new Veiculo[sizeLeft];
+        Veiculo[] arrayRight = new Veiculo[sizeRight];
+
+        for(int i = 0; i < sizeLeft; i++)
+        {
+            arrayLeft[i] = dados[left + i];
+        }
+
+        for(int i = 0; i < sizeRight; i++)
+        {
+            arrayRight[i] = dados[(pivot + 1) + i];
+        }
+
+        int i = 0; 
+        int j = 0;
+        int index = left;
+        while ( i < sizeLeft && j < sizeRight )
+        {
+            if ( arrayLeft[i].getConsumoCidade() < arrayRight[j].getConsumoCidade() )
+            {
+                dados[index] = arrayLeft[i];
+                i++;
+            }
+            else
+            {
+                if ( arrayLeft[i].getConsumoCidade() == arrayRight[j].getConsumoCidade() )
+                {
+                    dados[index] = (arrayLeft[i].getCategoria().compareTo(arrayRight[j].getCategoria()) < 0) ? arrayLeft[i++] : arrayRight[j++];
+                }
+                else
+                {
+                    dados[index] = arrayRight[j];
+                    j++;
+                }
+            }
+            index++;
+        }
+
+        while ( j < sizeRight )
+        {
+            dados[index] = arrayRight[j];
+            j++;
+            index++;
+        }
+
+        while ( i < sizeLeft )
+        {
+            dados[index] = arrayLeft[i];
+            i++;
+            index++;
+        }
+    }
 
     public void insercao(Veiculo[] dados)
     {
@@ -611,7 +688,17 @@ public class Veiculos
        //sort.print(set);
 
        // TP2-7
-       sort.bucketsort(set);
+       //sort.bucketsort(set);
+       //sort.print(set);
+       
+       // TP2-9
+       //int operationQuant = sc.nextInt();
+       //
+    
+       // TP3-Q1
+       //sort.print(set);
+       sort.mergeSort(set, pos);
        sort.print(set);
+
     }
 }
