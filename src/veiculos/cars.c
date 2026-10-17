@@ -49,19 +49,36 @@ void printCar(Car *car)
     //     car->consumoCidade, car->consumoEstrada, car->co2, car->turbo
     // );
 
-    printf("[%d ## %s ## %s ## %d ## %s ##",
+    printf("[%d ## %s ## %s ## %d ## %s ## [",
            car->id, car->marca, car->modelo, car->ano, car->categoria);
 
-    // printf("COMB");
-    
+    char *token = strtok(car->combustivel, ";");
 
-    printf(" ## %d ## %.2lf ## %s ## %s ## %.2lf. ## %.2lf ## %.2lf ## ",
+    while (token != NULL)
+    {
+        printf("%s", token);
+        token = strtok(0, ";");
+        if (token != NULL)
+        {
+            printf(",");
+        }
+    }
+
+    printf("] ## %d ## %.2lf ## %s ## %s ## %.2lf. ## %.2lf ## %.2lf ## ",
            car->cilindros, car->cilindrada, car->transmissao, car->tracao,
            car->consumoCidade, car->consumoEstrada, car->co2);
 
     char *turbo = (car->turbo) ? "true" : "false";
 
     printf("%s ## %02d/%02d/%d]\n", turbo, car->date.dia, car->date.mes, car->date.ano);
+}
+
+void printCars(Car **cars, int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        printCar(cars[i]);
+    }
 }
 
 int lengthToken(char *line)
@@ -229,25 +246,144 @@ Car *parseCar(char *line)
         token = strtok(0, ",");
 
         token = strtok(token, "-");
-        printf("Year = %s\n", token);
+
         car->date.ano = atoi(token);
 
         token = strtok(0, "-");
-        printf("Month = %s\n", token);
+
         car->date.mes = atoi(token);
 
         token = strtok(0, "-");
-        printf("Day = %s\n", token);
+
         car->date.dia = atoi(token);
     }
 
     return car;
 }
 
+Car *findCar(int id, Car **cars)
+{
+    Car *idCar = NULL;
+    int pos = 0;
+
+    while (cars[pos]->id != id)
+    {
+        pos++;
+    }
+
+    return cars[pos];
+}
+
+int cmp(char *a, char *b)
+{
+    int result = 0;
+
+    int index = 0;
+    while (a[index] != '\0' && !result)
+    {
+        result = (a[index] - b[index]);
+        index++;
+    }
+
+    return result;
+}
+
+void quickSort(Car **cars, int left, int right)
+{
+    int pivot = (right + left) / 2;
+    Car pivotCar = *cars[pivot];
+
+    int leftPos = left;
+    int rightPos = right;
+
+    while (leftPos <= rightPos)
+    {
+        int loop = 1;
+        while (loop)
+        {
+            if (cars[leftPos]->consumoEstrada < pivotCar.consumoEstrada)
+            {
+                leftPos++;
+            }
+            else
+            {
+                if (cars[leftPos]->consumoEstrada == pivotCar.consumoEstrada)
+                {
+                    if (cmp(cars[leftPos]->marca, pivotCar.marca) < 0)
+                    {
+                        leftPos++;
+                    }
+                    else
+                    {
+                        loop = 0;
+                    }
+                }
+                else
+                {
+                    loop = 0;
+                }
+            }
+        }
+
+        loop = 1;
+        while (loop)
+        {
+            if (cars[rightPos]->consumoEstrada > pivotCar.consumoEstrada)
+            {
+                rightPos--;
+            }
+            else
+            {
+                if (cars[rightPos]->consumoEstrada == pivotCar.consumoEstrada)
+                {
+                    if (cmp(cars[rightPos]->marca, pivotCar.marca) > 0)
+                    {
+                        rightPos--;
+                    }
+                    else
+                    {
+                        loop = 0;
+                    }
+                }
+                else
+                {
+                    loop = 0;
+                }
+            }
+        }
+
+        if (leftPos <= rightPos)
+        {
+            Car *tmp = cars[leftPos];
+            cars[leftPos] = cars[rightPos];
+            cars[rightPos] = tmp;
+
+            leftPos++;
+            rightPos--;
+        }
+    }
+
+    if (left < rightPos)
+    {
+        quickSort(cars, left, rightPos);
+    }
+
+    if (right > leftPos)
+    {
+        quickSort(cars, leftPos, right);
+    }
+}
+
 int main()
 {
 
-    FILE *file = fopen("C:\\Users\\1135188\\Downloads\\crispy-octo-broccoli\\data\\veiculos.csv", "rt");
+#if (_WIN32)
+#define _FILE_LOCATION fopen("C:\\Users\\1135188\\Downloads\\crispy-octo-broccoli\\data\\veiculos.csv", "rt")
+#elif (__linux__)
+#define _FILE_LOCATION fopen("/home/mikudev/projects/crispy-octo-broccoli/data/veiculos.csv", "rt")
+#endif
+
+    FILE *file = _FILE_LOCATION;
 
     char *test = (char *)malloc(sizeof(char) * 200);
 
@@ -258,33 +394,32 @@ int main()
 
     Car *cars[500];
 
+    // read header
     fgets(test, 200, file);
-    printf("%s", test);
-    // fgets(test, 200, file);
-    // printf("%s", test);
 
-    // while (fgets)
-    // {
-    //     /* code */
-    // }
+    for (size_t i = 0; i < 500; i++)
+    {
+        fgets(test, 200, file);
+        cars[i] = parseCar(test);
+    }
 
-    // for (size_t i = 0; i < 500; i++)
-    // {
-    //     fgets(test, 200, file);
-    //     cars[i] = parseCar(test);
-    //     printCar(cars[i]);
-    // }
+    int id = 0;
+    scanf("%d", &id);
 
-    fgets(test, 200, file);
-    cars[0] = parseCar(test);
-    printCar(cars[0]);
+    Car *setCars[50];
+    int index = 0;
+    while (id != -1)
+    {
+        setCars[index] = findCar(id, cars);
+        index++;
 
-    fgets(test, 200, file);
-    cars[1] = parseCar(test);
-    printCar(cars[1]);
+        scanf("%d", &id);
+    }
 
     printf("\n");
-    printCar(cars[0]);
+    // printCars(setCars, 50);
+
+    quickSort(setCars, 0, index - 1);
 
     fclose(file);
 
