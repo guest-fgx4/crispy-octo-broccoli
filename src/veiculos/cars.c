@@ -30,6 +30,12 @@ typedef struct Car
 
 } Car;
 
+typedef struct Cell
+{
+    Car *car;
+    struct Cell *prox;
+} Cell;
+
 void MyMemCpy(void *des, const void *src, size_t size)
 {
     char *desChar = (char *)des;
@@ -52,7 +58,6 @@ void printCar(Car *car)
     printf("[%d ## %s ## %s ## %d ## %s ## [",
            car->id, car->marca, car->modelo, car->ano, car->categoria);
 
-
     // Comb
     char *token = strtok(car->combustivel, ";");
     while (token != NULL)
@@ -72,6 +77,20 @@ void printCar(Car *car)
     char *turbo = (car->turbo) ? "true" : "false";
 
     printf("%s ## %02d/%02d/%d]\n", turbo, car->date.dia, car->date.mes, car->date.ano);
+}
+
+void printLinkedCell(Cell *head)
+{
+    Cell *i = head;
+
+    while (i != NULL)
+    {
+        if (i->car != NULL)
+        {
+            printCar(i->car);
+        }
+        i = i->prox;
+    }
 }
 
 void printCars(Car **cars, int size)
@@ -275,15 +294,41 @@ Car *findCar(int id, Car **cars)
     return cars[pos];
 }
 
+char normalize(char a)
+{
+    if (a >= 'A' && a <= 'Z')
+    {
+        a = a + '\40';
+    }
+
+    return a;
+}
+
 int cmp(char *a, char *b)
 {
     int result = 0;
 
     int index = 0;
-    while (a[index] != '\0' && !result)
+    while (a[index] != '\0' && b[index] != '\0' && !result)
     {
-        result = (a[index] - b[index]);
+        // result = (a[index] - b[index]);
+        result = (normalize(a[index]) - normalize(b[index]));
         index++;
+    }
+
+    if (result == 0)
+    {
+        if (lengthToken(a) > lengthToken(b))
+        {
+            result = 1;
+        }
+        else
+        {
+            if (lengthToken(a) < lengthToken(b))
+            {
+                result = -1;
+            }
+        }
     }
 
     return result;
@@ -375,6 +420,37 @@ void quickSort(Car **cars, int left, int right)
     }
 }
 
+void selectSortFlex(Cell *head)
+{
+    Cell *init = head;
+
+    while (init != NULL)
+    {
+        Cell *minCar = init;
+        Cell *j = init;
+
+        while (j != NULL)
+        {
+            if (j->car != NULL && minCar->car != NULL)
+            {
+
+                // if (strcmp(minCar->car->modelo, j->car->modelo) > 0)
+                if (cmp(minCar->car->modelo, j->car->modelo) > 0)
+                {
+                    minCar = j;
+                }
+            }
+            j = j->prox;
+        }
+
+        Car *tmp = init->car;
+        init->car = minCar->car;
+        minCar->car = tmp;
+
+        init = init->prox;
+    }
+}
+
 int main()
 {
 
@@ -405,25 +481,46 @@ int main()
         cars[i] = parseCar(test);
     }
 
-
     // find ids from file
+    // TP3-Q2
+    // int id = 0;
+    // scanf("%d", &id);
+
+    // Car *setCars[50];
+    // int index = 0;
+    // while (id != -1)
+    // {
+    //     setCars[index] = findCar(id, cars);
+    //     index++;
+
+    //     scanf("%d", &id);
+    // }
+
+    // TP3-Q2
+    // quickSort(setCars, 0, index - 1);
+    // printCars(setCars, 50);
+
+    // TP3-Q4
     int id = 0;
     scanf("%d", &id);
 
-    Car *setCars[50];
+    Cell *head = (Cell *)malloc(sizeof(Cell));
+    Cell *tail = head;
     int index = 0;
+
     while (id != -1)
     {
-        setCars[index] = findCar(id, cars);
-        index++;
 
+        tail->car = findCar(id, cars);
+        tail->prox = (Cell *)malloc(sizeof(Cell));
+        tail = tail->prox;
+
+        index++;
         scanf("%d", &id);
     }
 
-    // TP3-Q2
-    quickSort(setCars, 0, index - 1);
-    printCars(setCars, 50);
-
+    selectSortFlex(head);
+    printLinkedCell(head);
 
     fclose(file);
 
