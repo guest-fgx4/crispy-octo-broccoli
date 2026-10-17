@@ -351,6 +351,142 @@ class Data
 
 class Ordenar
 {
+
+    /**
+     * @param pos1: swap location
+     * @param pos2: Data to swap with
+     */
+    public void swapArrayPos(Veiculo[] dados, int pos1, int pos2)
+    {
+        Veiculo tmp = null;
+        
+        tmp = dados[pos1];
+        dados[pos1] = dados[pos2];
+        dados[pos2] = tmp;
+    }
+
+    public void heapTestParent(Veiculo[] dados, int size, int index)
+    {
+        int j = index;
+        
+
+        while ((j > 0))
+        {
+            if (dados[j].getC02() > dados[j/2].getC02())
+            {
+                swapArrayPos(dados, (j/2), j);
+                j = j / 2;
+            }
+            else
+            {
+                if (dados[j].getC02() == dados[j/2].getC02())
+                {
+                    if (dados[j].getTransmisao().compareTo(dados[j/2].getTransmisao()) > 0)
+                    {
+                        swapArrayPos(dados, (j/2), j);
+                        j = j / 2;
+                    }
+                    else
+                    {
+                        j = 0;
+                    }
+                }
+                else
+                {
+                    j = 0;
+                }
+            }
+        }
+
+    }
+
+    public void FixHeap(Veiculo[] dados, int size)
+    {
+        int j = 0;
+        int posMax = 0;
+        int child1Pos = 0;
+        int child2Pos = 0;
+
+        while (j < size)
+        {
+
+            //find bigger child
+            child1Pos = j*2+1;
+            child2Pos = j*2+2;
+
+            if ( child1Pos < size )
+            {
+                posMax = child1Pos;
+
+                if ( child2Pos < size)
+                {
+                    if (dados[child1Pos].getC02() > dados[child2Pos].getC02())
+                    {
+                        posMax = child1Pos;
+                    }
+                    else
+                    {
+                        if (dados[child1Pos].getC02() == dados[child2Pos].getC02())
+                        {
+                            posMax = (dados[child1Pos].getTransmisao().compareTo(dados[child2Pos].getTransmisao()) > 0) ? child1Pos : child2Pos;
+                        }
+                        else
+                        {
+                            posMax = child2Pos;
+                        }
+                    }
+                }
+            }
+
+            if (dados[j].getC02() < dados[posMax].getC02())
+            {
+                swapArrayPos(dados, j, posMax);
+                j = posMax;
+            }
+            else
+            {
+                if (dados[j].getC02() == dados[posMax].getC02())
+                {
+                    if (dados[j].getTransmisao().compareTo(dados[posMax].getTransmisao()) < 0)
+                    {
+                        swapArrayPos(dados, j, posMax);
+                        j = posMax;
+                    }
+                    else
+                    {
+                        j = size;
+                    }
+                    
+                }
+                else
+                {
+                    j = size;
+                }
+            }
+        }
+    }
+
+
+    public void heapSort(Veiculo[] dados, int size)
+    {
+        //Build heap
+        int heapSize = size;
+
+        for(int i = 0; i < size; i++)
+        {
+            heapTestParent(dados, heapSize, i);
+        }
+
+        //destory Heap
+        while (heapSize > 0)
+        {
+            swapArrayPos(dados, (heapSize - 1), 0);
+            heapSize--;
+
+            FixHeap(dados, heapSize);
+        }
+        
+    }
     
     public void mergeSort(Veiculo[] dados, int size)
     {
@@ -697,8 +833,14 @@ public class Veiculos
     
        // TP3-Q1
        //sort.print(set);
-       sort.mergeSort(set, pos);
-       sort.print(set);
+    //    sort.mergeSort(set, pos);
+    //    sort.print(set);
+
+        // TP3-Q3
+        // Heapsort: key -> co2, transissao
+        sort.heapSort(set,pos);
+        sort.print(set);
+
 
     }
 }
