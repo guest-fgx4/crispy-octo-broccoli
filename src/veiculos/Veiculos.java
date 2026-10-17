@@ -349,8 +349,199 @@ class Data
 }
 
 
+class FlexCelDouble
+{
+    public Veiculo element = null;
+    public FlexCelDouble prox = null;
+    public FlexCelDouble prev = null;
+
+    public FlexCelDouble(Veiculo dado)
+    {
+        element = dado;
+    }
+
+    public void linkProx(FlexCelDouble prox)
+    {
+        if (prox != null)
+        {
+            this.prox = prox;
+            this.prox.prev = this;
+        }
+    }
+
+    public void linkPrev(FlexCelDouble prev)
+    {
+        if (prev != null)
+        {
+            this.prev = prev;
+            this.prev.prox = this;
+        }
+    }
+
+    public Veiculo getElement()
+    {
+        return element;
+    }
+}
+
+
+class ListFlex
+{
+    public FlexCelDouble head = null;
+    public FlexCelDouble tail = null;
+    public int totalSize = 0;
+
+
+
+    public void print()
+    {
+        FlexCelDouble i = head;
+        while(i != null)
+        {
+            System.out.println(i.getElement());
+            i = i.prox;
+        }
+    }
+
+    public Veiculo seek(int pos)
+    {
+        FlexCelDouble i = head;
+        int index = 0;
+        while(i != null && index < pos)
+        {
+            i = i.prox;
+            index++;
+        }
+
+        if (i == null)
+        {
+            System.out.println("Error while seeking cel (Seek List)");
+            return null;
+        }
+
+        return i.getElement();
+    }
+
+    public FlexCelDouble celSeek(int pos)
+    {
+        FlexCelDouble i = head;
+        int index = 0;
+        while(i != null && index < pos)
+        {
+            i = i.prox;
+            index++;
+        }
+
+        if (i == null)
+        {
+            System.out.println("Error while seeking cel (Seek List)");
+            return null;
+        }
+
+        return i;
+    }
+}
+
 class Ordenar
 {
+
+    public void quickSortFlex(ListFlex data, int size, int left, int right)
+    {
+        int pivot = (left + right) / 2;
+        Veiculo carPivot = data.seek(pivot);
+
+        FlexCelDouble leftCar = data.celSeek(left);
+        FlexCelDouble rightCar = data.celSeek(right);
+
+        int posLeft = left;
+        int posRight = right;
+
+        while (posLeft <= posRight)
+        {
+            boolean loop = true;
+            while (loop)
+            {
+                if (leftCar.getElement().getConsumoEstrada() < carPivot.getConsumoEstrada())
+                {
+                    leftCar = leftCar.prox;
+                    posLeft++;
+                }
+                else
+                {
+                    if (leftCar.getElement().getConsumoEstrada() == carPivot.getConsumoEstrada())
+                    {
+                        if (leftCar.getElement().getMarca().compareTo(carPivot.getMarca()) < 0)
+                        {
+                            leftCar = leftCar.prox;
+                            posLeft++;
+                        }
+                        else
+                        {
+                            loop = false;
+                        }
+                    }
+                    else
+                    {
+                        loop = false;
+                    }
+                }
+            }
+
+            loop = true;
+            while (loop)
+            {
+                if (rightCar.getElement().getConsumoEstrada() > carPivot.getConsumoEstrada())
+                {
+                    rightCar = rightCar.prev;
+                    posRight--;
+                }
+                else
+                {
+                    if (rightCar.getElement().getConsumoEstrada() == carPivot.getConsumoEstrada())
+                    {
+                        if (rightCar.getElement().getMarca().compareTo(carPivot.getMarca()) > 0)
+                        {
+                            rightCar = rightCar.prev;
+                            posRight--;
+                        }
+                        else
+                        {
+                            loop = false;
+                        }
+                    }
+                    else
+                    {
+                        loop = false;
+                    }
+                }
+            }
+
+            if (posLeft <= posRight)
+            {
+                Veiculo tmp = leftCar.getElement();
+                leftCar.element = rightCar.getElement();
+                rightCar.element = tmp;
+
+
+                leftCar = leftCar.prox;
+                posLeft++;
+
+                rightCar = rightCar.prev;
+                posRight--;
+            }
+        }
+
+        if (left < posRight)
+        {
+            quickSortFlex(data, size, left, posRight);
+        }
+
+        if (right > posLeft)
+        {
+            quickSortFlex(data, size, posLeft, right);
+        }
+
+    }
 
     /**
      * @param pos1: swap location
@@ -798,23 +989,23 @@ public class Veiculos
             count++;
         }
 
-       Scanner sc = new Scanner(System.in);
+    //    Scanner sc = new Scanner(System.in);
 
-       int id = sc.nextInt();
+    //    int id = sc.nextInt();
 
-       Veiculo[] set = new Veiculo[100];
-       int pos = 0;
-       while (id != -1)
-       {
-           set[pos] = findCar(id, dados);
+    //    Veiculo[] set = new Veiculo[100];
+    //    int pos = 0;
+    //    while (id != -1)
+    //    {
+    //        set[pos] = findCar(id, dados);
 
-           if (set[pos] != null)
-           {
-               pos++;
-           }
+    //        if (set[pos] != null)
+    //        {
+    //            pos++;
+    //        }
 
-           id = sc.nextInt();
-       }
+    //        id = sc.nextInt();
+    //    }
 
        // TP2-1
        //sort.print(set);
@@ -833,14 +1024,45 @@ public class Veiculos
     
        // TP3-Q1
        //sort.print(set);
-    //    sort.mergeSort(set, pos);
-    //    sort.print(set);
+        // sort.mergeSort(set, pos);
+        // sort.print(set);
 
         // TP3-Q3
         // Heapsort: key -> co2, transissao
-        sort.heapSort(set,pos);
-        sort.print(set);
+        // sort.heapSort(set,pos);
+        // sort.print(set);
 
+        // TP3-Q5
+        // quicksort: key => consumo_estrada, marca
+        Scanner sc = new Scanner(System.in);
+
+        int id = sc.nextInt();
+
+        ListFlex list = new ListFlex();
+
+
+        list.head = new FlexCelDouble(findCar(id, dados));
+        list.tail = list.head;
+        list.totalSize++;
+        
+        id = sc.nextInt();
+
+        while (id != -1)
+        {
+            if (list.tail.prox == null)
+            {
+                FlexCelDouble i = new FlexCelDouble(findCar(id, dados));
+                i.linkPrev(list.tail);
+                list.tail = i;
+                list.totalSize++;
+            }
+
+            id = sc.nextInt();
+        }
+
+        sort.quickSortFlex(list, list.totalSize, 0, list.totalSize-1);
+
+        list.print();
 
     }
 }
