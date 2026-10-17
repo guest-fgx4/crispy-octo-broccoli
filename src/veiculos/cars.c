@@ -52,8 +52,9 @@ void printCar(Car *car)
     printf("[%d ## %s ## %s ## %d ## %s ## [",
            car->id, car->marca, car->modelo, car->ano, car->categoria);
 
-    char *token = strtok(car->combustivel, ";");
 
+    // Comb
+    char *token = strtok(car->combustivel, ";");
     while (token != NULL)
     {
         printf("%s", token);
@@ -64,7 +65,7 @@ void printCar(Car *car)
         }
     }
 
-    printf("] ## %d ## %.2lf ## %s ## %s ## %.2lf. ## %.2lf ## %.2lf ## ",
+    printf("] ## %d ## %.1lf ## %s ## %s ## %.2lf ## %.2lf ## %.1lf ## ",
            car->cilindros, car->cilindrada, car->transmissao, car->tracao,
            car->consumoCidade, car->consumoEstrada, car->co2);
 
@@ -397,12 +398,15 @@ int main()
     // read header
     fgets(test, 200, file);
 
+    // Get data
     for (size_t i = 0; i < 500; i++)
     {
         fgets(test, 200, file);
         cars[i] = parseCar(test);
     }
 
+
+    // find ids from file
     int id = 0;
     scanf("%d", &id);
 
@@ -416,10 +420,10 @@ int main()
         scanf("%d", &id);
     }
 
-    printf("\n");
-    // printCars(setCars, 50);
-
+    // TP3-Q2
     quickSort(setCars, 0, index - 1);
+    printCars(setCars, 50);
+
 
     fclose(file);
 
