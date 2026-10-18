@@ -420,6 +420,134 @@ void quickSort(Car **cars, int left, int right)
     }
 }
 
+Car *findMedian(Car *a, Car *b, Car *c)
+{
+    Car *res = 0;
+    // printf("Values: a = %lf, b = %lf, c = %lf\n", a, b, c);
+
+    if (a->consumoEstrada >= b->consumoEstrada)
+    {
+        if (a->consumoEstrada >= c->consumoEstrada)
+        {
+            if (b->consumoEstrada >= c->consumoEstrada)
+            {
+                res = b;
+            }
+            else
+            {
+                res = c;
+            }
+        }
+        else
+        {
+            res = a;
+        }
+    }
+    else
+    {
+        if (b->consumoEstrada >= c->consumoEstrada)
+        {
+            res = c;
+        }
+        else
+        {
+            res = b;
+        }
+    }
+
+    // printf("Values: res = %lf\n", res);
+
+    return res;
+}
+
+void quickSortThreeMed(Car **cars, int left, int right, int)
+{
+    int mid = (right + left) / 2;
+    // double pivot = (cars[right]->consumoEstrada + cars[left]->consumoEstrada + cars[mid]->consumoEstrada) / 3;
+    Car *pivotCar = findMedian(cars[left], cars[right], cars[mid]);
+
+    int leftPos = left;
+    int rightPos = right;
+
+    while (leftPos <= rightPos)
+    {
+
+        int loop = 1;
+        while (loop)
+        {
+            if (cars[leftPos]->consumoEstrada < pivotCar->consumoEstrada)
+            {
+                leftPos++;
+            }
+            else
+            {
+                if (cars[leftPos]->consumoEstrada == pivotCar->consumoEstrada)
+                {
+                    if (cmp(cars[leftPos]->marca, pivotCar->marca) < 0)
+                    {
+                        leftPos++;
+                    }
+                    else
+                    {
+                        loop = 0;
+                    }
+                }
+                else
+                {
+                    loop = 0;
+                }
+            }
+        }
+
+        loop = 1;
+        while (loop)
+        {
+            if (cars[rightPos]->consumoEstrada > pivotCar->consumoEstrada)
+            {
+                rightPos--;
+            }
+            else
+            {
+                if (cars[rightPos]->consumoEstrada == pivotCar->consumoEstrada)
+                {
+                    if (cmp(cars[rightPos]->marca, pivotCar->marca) > 0)
+                    {
+                        rightPos--;
+                    }
+                    else
+                    {
+                        loop = 0;
+                    }
+                }
+                else
+                {
+                    loop = 0;
+                }
+            }
+        }
+
+        if (leftPos <= rightPos)
+        {
+            Car *tmp = cars[leftPos];
+            cars[leftPos] = cars[rightPos];
+            cars[rightPos] = tmp;
+
+            leftPos++;
+            rightPos--;
+        }
+    }
+
+    if (left < rightPos)
+    {
+        quickSortThreeMed(cars, left, rightPos, 0);
+    }
+
+    if (right > leftPos)
+    {
+        quickSortThreeMed(cars, leftPos, right, 0);
+    }
+}
+
 void selectSortFlex(Cell *head)
 {
     Cell *init = head;
@@ -501,26 +629,44 @@ int main()
     // printCars(setCars, 50);
 
     // TP3-Q4
+    // int id = 0;
+    // scanf("%d", &id);
+
+    // Cell *head = (Cell *)malloc(sizeof(Cell));
+    // Cell *tail = head;
+    // int index = 0;
+
+    // while (id != -1)
+    // {
+
+    //     tail->car = findCar(id, cars);
+    //     tail->prox = (Cell *)malloc(sizeof(Cell));
+    //     tail = tail->prox;
+
+    //     index++;
+    //     scanf("%d", &id);
+    // }
+
+    // selectSortFlex(head);
+    // printLinkedCell(head);
+
+    // ==========================================
+    // TP3-Q6
     int id = 0;
     scanf("%d", &id);
 
-    Cell *head = (Cell *)malloc(sizeof(Cell));
-    Cell *tail = head;
+    Car *setCars[50];
     int index = 0;
-
     while (id != -1)
     {
-
-        tail->car = findCar(id, cars);
-        tail->prox = (Cell *)malloc(sizeof(Cell));
-        tail = tail->prox;
-
+        setCars[index] = findCar(id, cars);
         index++;
+
         scanf("%d", &id);
     }
 
-    selectSortFlex(head);
-    printLinkedCell(head);
+    quickSortThreeMed(setCars, 0, index - 1, 0);
+    printCars(setCars, 50);
 
     fclose(file);
 
