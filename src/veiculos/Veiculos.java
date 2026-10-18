@@ -974,7 +974,7 @@ public class Veiculos
         Veiculo[] dados = new Veiculo[500];
 
         LeitorCSV csv = new LeitorCSV();
-        csv.openFile(filePath);
+        csv.openFile(filePathVerde);
         //System.out.println(csv.readNextLine());
         csv.readNextLine();
         Ordenar sort = new Ordenar();
@@ -989,23 +989,23 @@ public class Veiculos
             count++;
         }
 
-    //    Scanner sc = new Scanner(System.in);
+       Scanner sc = new Scanner(System.in);
 
-    //    int id = sc.nextInt();
+       int id = sc.nextInt();
 
-    //    Veiculo[] set = new Veiculo[100];
-    //    int pos = 0;
-    //    while (id != -1)
-    //    {
-    //        set[pos] = findCar(id, dados);
+       Veiculo[] set = new Veiculo[100];
+       int pos = 0;
+       while (id != -1)
+       {
+           set[pos] = findCar(id, dados);
 
-    //        if (set[pos] != null)
-    //        {
-    //            pos++;
-    //        }
+           if (set[pos] != null)
+           {
+               pos++;
+           }
 
-    //        id = sc.nextInt();
-    //    }
+           id = sc.nextInt();
+       }
 
        // TP2-1
        //sort.print(set);
@@ -1023,46 +1023,45 @@ public class Veiculos
        //
     
        // TP3-Q1
-       //sort.print(set);
         // sort.mergeSort(set, pos);
         // sort.print(set);
 
         // TP3-Q3
         // Heapsort: key -> co2, transissao
-        // sort.heapSort(set,pos);
-        // sort.print(set);
+        sort.heapSort(set,pos);
+        sort.print(set);
 
         // TP3-Q5
         // quicksort: key => consumo_estrada, marca
-        Scanner sc = new Scanner(System.in);
+        // Scanner sc = new Scanner(System.in);
 
-        int id = sc.nextInt();
+        // int id = sc.nextInt();
 
-        ListFlex list = new ListFlex();
+        // ListFlex list = new ListFlex();
 
 
-        list.head = new FlexCelDouble(findCar(id, dados));
-        list.tail = list.head;
-        list.totalSize++;
+        // list.head = new FlexCelDouble(findCar(id, dados));
+        // list.tail = list.head;
+        // list.totalSize++;
         
-        id = sc.nextInt();
+        // id = sc.nextInt();
 
-        while (id != -1)
-        {
-            if (list.tail.prox == null)
-            {
-                FlexCelDouble i = new FlexCelDouble(findCar(id, dados));
-                i.linkPrev(list.tail);
-                list.tail = i;
-                list.totalSize++;
-            }
+        // while (id != -1)
+        // {
+        //     if (list.tail.prox == null)
+        //     {
+        //         FlexCelDouble i = new FlexCelDouble(findCar(id, dados));
+        //         i.linkPrev(list.tail);
+        //         list.tail = i;
+        //         list.totalSize++;
+        //     }
 
-            id = sc.nextInt();
-        }
+        //     id = sc.nextInt();
+        // }
 
-        sort.quickSortFlex(list, list.totalSize, 0, list.totalSize-1);
+        // sort.quickSortFlex(list, list.totalSize, 0, list.totalSize-1);
 
-        list.print();
+        // list.print();
 
     }
 }

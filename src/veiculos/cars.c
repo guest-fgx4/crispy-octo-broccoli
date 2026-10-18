@@ -2,6 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+#if defined(__GNUC__)
+#define GCC_VERSION (__GNUC__ * 10000 \
+                        + __GNUC_MINOR__ * 100)
+#endif
+
+#if defined(_WIN32)
+#define _FILE_LOCATION fopen("C:\\Users\\1135188\\Downloads\\crispy-octo-broccoli\\data\\veiculos.csv", "rt")
+#elif ( defined(__linux__) && GCC_VERSION >= 130000 )
+#define _FILE_LOCATION fopen("/home/mikudev/projects/crispy-octo-broccoli/data/veiculos.csv", "rt")
+#else
+#define _FILE_LOCATION fopen("/tmp/veiculos.csv", "rt")
+#endif
+
+
 typedef struct Date
 {
     int ano;
@@ -97,7 +111,10 @@ void printCars(Car **cars, int size)
 {
     for (int i = 0; i < size; i++)
     {
-        printCar(cars[i]);
+        if (cars[i] != NULL)
+        {
+            printCar(cars[i]);
+        }
     }
 }
 
@@ -581,20 +598,13 @@ void selectSortFlex(Cell *head)
 
 int main()
 {
-
-#if (_WIN32)
-#define _FILE_LOCATION fopen("C:\\Users\\1135188\\Downloads\\crispy-octo-broccoli\\data\\veiculos.csv", "rt")
-#elif (__linux__)
-#define _FILE_LOCATION fopen("/home/mikudev/projects/crispy-octo-broccoli/data/veiculos.csv", "rt")
-#endif
-
     FILE *file = _FILE_LOCATION;
 
     char *test = (char *)malloc(sizeof(char) * 200);
 
     if (file == NULL)
     {
-        printf("ok\n");
+        return EXIT_FAILURE;
     }
 
     Car *cars[500];
@@ -609,12 +619,14 @@ int main()
         cars[i] = parseCar(test);
     }
 
+    // printf("Helllllllllooo");
+
     // find ids from file
     // TP3-Q2
     // int id = 0;
     // scanf("%d", &id);
 
-    // Car *setCars[50];
+    // Car *setCars[300];
     // int index = 0;
     // while (id != -1)
     // {
@@ -624,9 +636,8 @@ int main()
     //     scanf("%d", &id);
     // }
 
-    // TP3-Q2
     // quickSort(setCars, 0, index - 1);
-    // printCars(setCars, 50);
+    // printCars(setCars, index);
 
     // TP3-Q4
     // int id = 0;
@@ -655,7 +666,7 @@ int main()
     int id = 0;
     scanf("%d", &id);
 
-    Car *setCars[50];
+    Car *setCars[300];
     int index = 0;
     while (id != -1)
     {
@@ -666,7 +677,7 @@ int main()
     }
 
     quickSortThreeMed(setCars, 0, index - 1, 0);
-    printCars(setCars, 50);
+    printCars(setCars, index);
 
     fclose(file);
 
